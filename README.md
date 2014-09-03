@@ -1,7 +1,15 @@
-commandline
-===========
-*Node.js commandline interface.*  
+#commandline
+-
+*Node.js commandline/terminal interface.*  
 
-Simple commandline interface to allow you to run cli or bash style commands as if you were in the terminal.
+Simple commandline or terminal interface to allow you to run cli or bash style commands as if you were in the terminal.
 
-Run commands asynchronously, and if needed, get the output as a string, or if not, just run the command and ignore the output.
+Run commands asynchronously, and if needed can get the output as a string.
+
+#Examples
+-
+
+    var cmd=require('node-cmd');
+    
+    cmd.get('ls');
+    cmd.run('ls');
