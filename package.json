@@ -1,6 +1,6 @@
 {
   "name": "node-cmd",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Simple commandline/terminal interface to allow you to run cli or bash style commands as if you were in the terminal.",
   "main": "cmd.js",
   "directories": {
