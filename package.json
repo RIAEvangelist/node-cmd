@@ -1,8 +1,8 @@
 {
   "name": "node-cmd",
   "version": "1.0.0",
-  "description": "Simple commandline interface to allow you to run cli or bash style commands as if you were in the terminal.",
-  "main": "commandline.js",
+  "description": "Simple commandline/terminal interface to allow you to run cli or bash style commands as if you were in the terminal.",
+  "main": "cmd.js",
   "directories": {
     "example": "example"
   },
@@ -11,7 +11,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/RIAEvangelist/commandline.git"
+    "url": "https://github.com/RIAEvangelist/node-cmd.git"
   },
   "keywords": [
     "commandline",
@@ -22,9 +22,9 @@
     "script"
   ],
   "author": "Brandon Nozaki Miller",
-  "license": "Unlicense",
+  "license": "DBAD",
   "bugs": {
-    "url": "https://github.com/RIAEvangelist/commandline/issues"
+    "url": "https://github.com/RIAEvangelist/node-cmd/issues"
   },
-  "homepage": "https://github.com/RIAEvangelist/commandline"
+  "homepage": "https://github.com/RIAEvangelist/node-cmd"
 }
