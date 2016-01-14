@@ -1,5 +1,4 @@
-var sys     = require('sys'),
-    exec    = require('child_process').exec;
+var exec = require('child_process').exec;
 
 var commandline={
     get:getString,
@@ -14,7 +13,7 @@ function runCommand(command){
 
 function getString(command,callback){
     exec(
-        command, 
+        command,
         (
             function(){
                 return function(err,data,stderr){
