@@ -18,17 +18,19 @@ Run commands asynchronously, and if needed can get the output as a string.
 #Examples
 -
 
+```javascript
+
     var cmd=require('node-cmd');
-    
+
     cmd.get(
         'pwd',
         function(data){
             console.log('the current working dir is : ',data)
         }
     );
-    
+
     cmd.run('touch example.created.file');
-    
+
     cmd.get(
         'ls',
         function(data){
@@ -36,3 +38,15 @@ Run commands asynchronously, and if needed can get the output as a string.
         }
     );
 
+    cmd.get(
+        `
+            git clone https://github.com/RIAEvangelist/node-cmd.git
+            cd node-cmd
+            ls
+        `,
+        function(data){
+            console.log('the current dir contains these files :\n\n',data)
+        }
+    );
+
+```
