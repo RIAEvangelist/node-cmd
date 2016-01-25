@@ -15,3 +15,14 @@ cmd.get(
         console.log('the current dir contains these files :\n\n',data)
     }
 );
+
+cmd.get(
+    `
+        git clone https://github.com/RIAEvangelist/node-cmd.git
+        cd node-cmd
+        ls
+    `,
+    function(data){
+        console.log('the node-cmd clone dir contains these files :\n\n',data)
+    }
+);
