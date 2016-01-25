@@ -45,7 +45,7 @@ Run commands asynchronously, and if needed can get the output as a string.
             ls
         `,
         function(data){
-            console.log('the current dir contains these files :\n\n',data)
+            console.log('the node-cmd cloned dir contains these files :\n\n',data)
         }
     );
 
