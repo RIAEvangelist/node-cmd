@@ -17,7 +17,7 @@ function getString(command,callback){
         (
             function(){
                 return function(err,data,stderr){
-                    callback(data);
+                    callback(data,err,stderr);
                 }
             }
         )(callback)
