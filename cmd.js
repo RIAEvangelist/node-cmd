@@ -20,7 +20,7 @@ function getString(command,callback){
                     if(!callback)
                         return;
 
-                    callback(data);
+                    callback(data, err, stderr);
                 }
             }
         )(callback)
