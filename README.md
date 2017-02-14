@@ -6,7 +6,11 @@ Simple commandline or terminal interface to allow you to run cli or bash style c
 
 Run commands asynchronously, and if needed can get the output as a string.
 
-npm info :  [See npm trends and stats for node-cmd](http://npm-stat.com/charts.html?package=node-cmd&author=&from=&to=)  
+#### NPM Stats
+
+npm info :    
+[![NPM](https://nodei.co/npm/node-cmd.png?downloads=true&downloadRank=true&stars=true)](https://nodei.co/npm/node-cmd/)  
+[See npm trends and stats for node-cmd](http://npm-stat.com/charts.html?package=node-cmd&author=&from=&to=)  
 ![node-cmd npm version](https://img.shields.io/npm/v/node-cmd.svg) ![supported node version for node-cmd](https://img.shields.io/node/v/node-cmd.svg) ![total npm downloads for node-cmd](https://img.shields.io/npm/dt/node-cmd.svg) ![monthly npm downloads for node-cmd](https://img.shields.io/npm/dm/node-cmd.svg) ![npm licence for node-cmd](https://img.shields.io/npm/l/node-cmd.svg)
 
 [![RIAEvangelist](https://avatars3.githubusercontent.com/u/369041?v=3&s=100)](https://github.com/RIAEvangelist)
