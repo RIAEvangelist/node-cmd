@@ -59,8 +59,13 @@ This work is licenced via the [DBAD Public Licence](http://www.dbad-license.org/
             cd node-cmd
             ls
         `,
-        function(data){
-            console.log('the node-cmd cloned dir contains these files :\n\n',data)
+        function(data, err, stderr){
+            if (!err) {
+               console.log('the node-cmd cloned dir contains these files :\n\n',data)
+            } else {
+               console.log('error', err)
+            }
+            
         }
     );
 
