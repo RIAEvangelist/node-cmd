@@ -60,7 +60,7 @@ This work is licenced via the [DBAD Public Licence](http://www.dbad-license.org/
             ls
         `,
         function(data, err, stderr){
-            if (err === null) {
+            if (!err) {
                console.log('the node-cmd cloned dir contains these files :\n\n',data)
             } else {
                console.log('error', err)
