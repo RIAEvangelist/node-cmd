@@ -6,13 +6,15 @@ var commandline={
 };
 
 function runCommand(command){
-    exec(
+    //return pid 
+    return exec(
         command
     );
 }
 
 function getString(command,callback){
-    exec(
+    //return pid
+    return exec(
         command,
         (
             function(){
