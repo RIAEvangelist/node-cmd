@@ -6,14 +6,14 @@ var commandline={
 };
 
 function runCommand(command){
-    //return pid 
+    //return object with pid as one of keys, pid = cmd.run()['pid'];
     return exec(
         command
     );
 }
 
 function getString(command,callback){
-    //return pid
+    //return object with pid as one of keys, pid = cmd.get()['pid'];
     return exec(
         command,
         (
