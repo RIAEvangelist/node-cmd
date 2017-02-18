@@ -1,6 +1,6 @@
 {
   "name": "node-cmd",
-  "version": "1.3.0",
+  "version": "2.0.0",
   "description": "Simple commandline/terminal interface to allow you to run cli or bash style commands as if you were in the terminal.",
   "main": "cmd.js",
   "directories": {
@@ -19,7 +19,8 @@
     "cmd",
     "cli",
     "bash",
-    "script"
+    "script",
+    "node"
   ],
   "author": "Brandon Nozaki Miller",
   "license": "DBAD",
