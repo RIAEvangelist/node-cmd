@@ -1,0 +1,8 @@
+title: Node-cmd
+description: Simple commandline interface to allow you to run cli or bash style commands as if you were in the terminal.
+google_analytics: 
+show_downloads: true
+theme: jekyll-theme-slate
+
+gems:
+  - jekyll-mentions
