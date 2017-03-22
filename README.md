@@ -43,7 +43,7 @@ This work is licenced via the [DBAD Public Licence](http://www.dbad-license.org/
 
     cmd.get(
         'pwd',
-        function(data){
+        function(err, data, stderr){
             console.log('the current working dir is : ',data)
         }
     );
@@ -52,7 +52,7 @@ This work is licenced via the [DBAD Public Licence](http://www.dbad-license.org/
 
     cmd.get(
         'ls',
-        function(data){
+        function(err, data, stderr){
             console.log('the current dir contains these files :\n\n',data)
         }
     );
@@ -63,7 +63,7 @@ This work is licenced via the [DBAD Public Licence](http://www.dbad-license.org/
             cd node-cmd
             ls
         `,
-        function(data, err, stderr){
+        function(err, data, stderr){
             if (!err) {
                console.log('the node-cmd cloned dir contains these files :\n\n',data)
             } else {
