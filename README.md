@@ -33,7 +33,7 @@ This work is licenced via the [DBAD Public Licence](http://www.dbad-license.org/
 |get    | command,callback  | runs a command asynchronously, when the command is complete all of the stdout will be passed to the callback|
 
 
-# Examples
+## Examples
 
 ```javascript
 
@@ -70,6 +70,25 @@ This work is licenced via the [DBAD Public Licence](http://www.dbad-license.org/
 
         }
     );
+
+```
+
+## With promises
+
+this example by @stephen-last
+
+``` javascript
+
+import Promise from 'bluebird'
+import cmd from 'node-cmd'
+
+const getAsync = Promise.promisify(cmd.get, { multiArgs: true, context: cmd })
+
+getAsync('node -v').then(data => {
+  console.log('cmd data', data)
+}).catch(err => {
+  console.log('cmd err', err)
+})
 
 ```
 
