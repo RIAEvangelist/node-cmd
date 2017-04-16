@@ -1,4 +1,4 @@
-#node-cmd
+# node-cmd
 -
 *Node.js commandline/terminal interface.*  
 
@@ -25,7 +25,7 @@ Package details websites :
 This work is licenced via the [DBAD Public Licence](http://www.dbad-license.org/).
 
 
-#Methods
+# Methods
 -
 
 |method | arguments | functionality |
@@ -34,7 +34,7 @@ This work is licenced via the [DBAD Public Licence](http://www.dbad-license.org/
 |get    | command,callback  | runs a command asynchronously, when the command is complete all of the stdout will be passed to the callback|
 
 
-#Examples
+# Examples
 -
 
 ```javascript
@@ -43,7 +43,7 @@ This work is licenced via the [DBAD Public Licence](http://www.dbad-license.org/
 
     cmd.get(
         'pwd',
-        function(data){
+        function(err, data, stderr){
             console.log('the current working dir is : ',data)
         }
     );
@@ -52,7 +52,7 @@ This work is licenced via the [DBAD Public Licence](http://www.dbad-license.org/
 
     cmd.get(
         'ls',
-        function(data){
+        function(err, data, stderr){
             console.log('the current dir contains these files :\n\n',data)
         }
     );
@@ -63,7 +63,7 @@ This work is licenced via the [DBAD Public Licence](http://www.dbad-license.org/
             cd node-cmd
             ls
         `,
-        function(data, err, stderr){
+        function(err, data, stderr){
             if (!err) {
                console.log('the node-cmd cloned dir contains these files :\n\n',data)
             } else {

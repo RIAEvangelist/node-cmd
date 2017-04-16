@@ -22,7 +22,7 @@ function getString(command,callback){
                     if(!callback)
                         return;
 
-                    callback(data, err, stderr);
+                    callback(err, data, stderr);
                 }
             }
         )(callback)
