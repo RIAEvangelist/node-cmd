@@ -26,7 +26,6 @@ This work is licenced via the [DBAD Public Licence](http://www.dbad-license.org/
 
 
 # Methods
--
 
 |method | arguments | functionality |
 |-------|-----------|---------------|
@@ -35,7 +34,6 @@ This work is licenced via the [DBAD Public Licence](http://www.dbad-license.org/
 
 
 # Examples
--
 
 ```javascript
 
