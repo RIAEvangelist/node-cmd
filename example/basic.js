@@ -2,7 +2,7 @@ var cmd=require('../cmd.js');
 
 cmd.get(
     'pwd',
-    function(data){
+    function(err,data){
         console.log('the current working dir is : ',data)
     }
 );
@@ -11,7 +11,7 @@ cmd.run('touch example.created.file');
 
 cmd.get(
     'ls',
-    function(data){
+    function(err,data){
         console.log('the current dir contains these files :\n\n',data)
     }
 );
@@ -22,7 +22,7 @@ cmd.get(
         cd node-cmd
         ls
     `,
-    function(data){
+    function(err,data){
         console.log('the node-cmd clone dir contains these files :\n\n',data)
     }
 );
