@@ -1,4 +1,4 @@
-#node-cmd
+# node-cmd
 -
 *Node.js commandline/terminal interface.*  
 
@@ -25,7 +25,7 @@ Package details websites :
 This work is licenced via the [DBAD Public Licence](http://www.dbad-license.org/).
 
 
-#Methods
+# Methods
 -
 
 |method | arguments | functionality |
@@ -34,7 +34,7 @@ This work is licenced via the [DBAD Public Licence](http://www.dbad-license.org/
 |get    | command,callback  | runs a command asynchronously, when the command is complete all of the stdout will be passed to the callback|
 
 
-#Examples
+# Examples
 -
 
 ```javascript
