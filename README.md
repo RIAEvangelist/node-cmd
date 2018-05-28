@@ -29,9 +29,10 @@ This work is licenced via the [DBAD Public Licence](http://www.dbad-license.org/
 
 |method | arguments | functionality |
 |-------|-----------|---------------|
-|run    | command   | runs a command asynchronously|
-|get    | command,callback  | runs a command asynchronously, when the command is complete all of the stdout will be passed to the callback|
+|run    | command[,options]   | runs a command asynchronously|
+|get    | command,callback[,options]  | runs a command asynchronously, when the command is complete all of the stdout will be passed to the callback|
 
+The options object gets passed through to the exec command giving the ability to configure the command as if you were interacting with the node function itself. The available options can be found in the [Node.js documentation](https://nodejs.org/api/child_process.html#child_process_child_process_exec_command_options_callback)
 
 ## Examples
 
@@ -68,6 +69,9 @@ This work is licenced via the [DBAD Public Licence](http://www.dbad-license.org/
                console.log('error', err)
             }
 
+        }, {
+          encoding: 'utf8',
+          maxBuffer: Infinity
         }
     );
 
