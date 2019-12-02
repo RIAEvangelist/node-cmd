@@ -3,7 +3,8 @@ var cmd=require('../cmd.js');
 cmd.get(
     'pwd',
     function(err,data){
-        console.log('the current working dir is : ',data)
+        console.log('the current working dir is : ',data);
+        console.log(err);
     }
 );
 
@@ -12,6 +13,7 @@ cmd.run('touch example.created.file');
 cmd.get(
     'ls',
     function(err,data){
+        console.log(err);
         console.log('the current dir contains these files :\n\n',data)
     }
 );
