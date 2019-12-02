@@ -18,13 +18,14 @@ cmd.get(
     }
 );
 
+//FOR WINDOWS THE SPACES AT THE START OF THE LINE ARE BAD!!! THATS WHY THIS IS UGLY ;)
+//
 cmd.get(
-    `
-        git clone https://github.com/RIAEvangelist/node-cmd.git
-        cd node-cmd
-        ls
+    `git clone https://github.com/RIAEvangelist/node-cmd.git
+cd node-cmd
+ls
     `,
     function(err,data){
-        console.log('the node-cmd clone dir contains these files :\n\n',data)
+        console.log('the node-cmd cloned itself in this folder :\n\n',data)
     }
 );
