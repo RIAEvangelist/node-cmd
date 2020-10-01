@@ -28,3 +28,9 @@ cmd.get(
         console.log('the node-cmd clone dir contains these files :\n\n',data)
     }
 );
+
+
+const result = cmd.getSync("ls");
+if (result.err === null){
+    console.log('sync - the node-cmd clone dir contains these files: ', result.data)
+}
