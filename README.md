@@ -2,7 +2,7 @@
 
 *Node.js commandline/terminal interface.*  
 
-Simple commandline or terminal interface to allow you to run cli or bash style commands as if you were in the terminal.
+Simple commandline, terminal, or shell interface to allow you to run cli or bash style commands as if you were in the terminal.
 
 Run commands asynchronously, and if needed can get the output as a string.
 
@@ -22,7 +22,7 @@ Package details websites :
 * [GitHub.io site](http://riaevangelist.github.io/node-cmd/ "node-cmd documentation"). A prettier version of this site.
 * [NPM Module](https://www.npmjs.org/package/node-cmd "node-cmd npm module"). The npm page for the node-cmd module.
 
-This work is licenced via the [DBAD Public Licence](http://www.dbad-license.org/).
+This work is licenced via the MIT Licence.
 
 
 # Methods
