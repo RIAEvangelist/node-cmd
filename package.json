@@ -1,10 +1,13 @@
 {
   "name": "node-cmd",
-  "version": "3.1.0",
+  "version": "4.0.0",
   "description": "Simple commandline/terminal/shell interface to allow you to run cli or bash style commands as if you were in the terminal.",
   "main": "cmd.js",
   "directories": {
     "example": "example"
+  },
+  "engines" : {
+    "node" : ">=6.4.0"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"

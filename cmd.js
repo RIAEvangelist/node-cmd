@@ -1,20 +1,15 @@
 const { exec, execSync } = require('child_process'); 
 
 const commandline={
-    get:getString,
     run:runCommand,
-    getSync:getStringSync
+    runSync:runSync,
+    //will be deprecated soon as run is now the same.
+    get:runCommand,
+    
 };
 
-function runCommand(command){
-    //return refrence to the child process
-    return exec(
-        command
-    );
-}
-
-function getString(command,callback){
-    //return refrence to the child process
+function runCommand(command,callback){
+    
     return exec(
         command,
         (
@@ -30,22 +25,21 @@ function getString(command,callback){
     );
 }
 
-/**
- * 
- * @param {*} command 
- * @param {*} callback 
- * @returns {Object} data, err 
- * 
- * If err is null, command was succesful
- */
-function getStringSync(command){
+function runSync(command){
     try {
-        return { data: execSync(command).toString(), err: null }
+        return { 
+            data:   execSync(command).toString(), 
+            err:    null, 
+            stderr: null 
+        }
     } 
     catch (error) {
-        return { data: null, err: error.stderr.toString() }
+        return { 
+            data:   null, 
+            err:    error.stderr.toString(), 
+            stderr: error.stderr.toString() 
+        }
     }
 }
-
 
 module.exports=commandline;

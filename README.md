@@ -27,82 +27,69 @@ This work is licenced via the MIT Licence.
 
 # Methods
 
-|method | arguments | functionality |
-|-------|-----------|---------------|
-|run    | command   | runs a command asynchronously|
-|get    | command,callback  | runs a command asynchronously, when the command is complete all of the stdout will be passed to the callback|
+|method | arguments | functionality | returns |
+|-------|-----------|---------------|---------|
+|run    | command, callback | runs a command asynchronously| args for callback `err`,`data`,`stderr` |
+|runSync| command   | runs a command ***synchronously*** | obj {`err`,`data`,`stderr`} |
 
 
 ## Examples
 
 ```javascript
 
+//*nix
+
     var cmd=require('node-cmd');
 
-    cmd.get(
-        'pwd',
+//*nix supports multiline commands
+    
+    cmd.runSync('touch ./example/example.created.file');
+
+    cmd.run(
+        `cd ./example
+ls`,
         function(err, data, stderr){
-            console.log('the current working dir is : ',data)
-        }
-    );
-
-    cmd.run('touch example.created.file');
-
-    cmd.get(
-        'ls',
-        function(err, data, stderr){
-            console.log('the current dir contains these files :\n\n',data)
-        }
-    );
-
-    cmd.get(
-        `
-            git clone https://github.com/RIAEvangelist/node-cmd.git
-            cd node-cmd
-            ls
-        `,
-        function(err, data, stderr){
-            if (!err) {
-               console.log('the node-cmd cloned dir contains these files :\n\n',data)
-            } else {
-               console.log('error', err)
-            }
-
+            console.log('examples dir now contains the example file along with : ',data)
         }
     );
 
 ```
-
-## With promises
-
-this example by @stephen-last
-
-``` javascript
-
-import Promise from 'bluebird'
-import cmd from 'node-cmd'
-
-const getAsync = Promise.promisify(cmd.get, { multiArgs: true, context: cmd })
-
-getAsync('node -v').then(data => {
-  console.log('cmd data', data)
-}).catch(err => {
-  console.log('cmd err', err)
-})
-
-```
-
-## Accessing the CMD Process
-If you need PIDs, stdio,stdin, stdout, stderr, etc. access,  for use in your code, or cleaning up, @freemany added in some functionality to get a reference to the child process as the returned value of the ` get ` and ` run ` calls.
-
-
-### Getting Process ID
 
 ```javascript
 
-    var cmd=require('../cmd.js');
+//Windows
 
-    var process=cmd.get('node');
+    var cmd=require('node-cmd');
+
+//Windows multiline commands are not guaranteed to work
+    
+    const syncData=cmd.runSync('cd ./example');
+
+    console.log(`
+    
+        Sync Err ${syncData.err}
+        
+        Sync stderr:  ${syncDir.stderr}
+
+        Sync Data ${syncData.data}
+    
+    `);
+
+    cmd.run(`dir`,
+        function(err, data, stderr){
+            console.log('the example dir contains : ',data)
+        }
+    );
+
+```
+
+### Getting the CMD Process ID
+
+```javascript
+
+    var cmd=require('node-cmd');
+
+    var process=cmd.run('node');
     console.log(process.pid);
 
 ```
@@ -110,9 +97,9 @@ If you need PIDs, stdio,stdin, stdout, stderr, etc. access,  for use in your cod
 ### Running a python shell from node
 
 ```javascript
-const cmd=require('../cmd.js');
+const cmd=require('node-cmd');
 
-const processRef=cmd.get('python -i');
+const processRef=cmd.run('python -i');
 let data_line = '';
 
 //listen to the python terminal output
