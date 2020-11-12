@@ -61,9 +61,9 @@ ls`,
 
     var cmd=require('node-cmd');
 
-//Windows multiline commands are not guaranteed to work
+//Windows multiline commands are not guaranteed to work try condensing to a single line.
     
-    const syncData=cmd.runSync('cd ./example');
+    const syncData=cmd.runSync('cd ./example & dir');
 
     console.log(`
     
@@ -77,11 +77,24 @@ ls`,
 
     cmd.run(`dir`,
         function(err, data, stderr){
-            console.log('the example dir contains : ',data)
+            console.log('the node-cmd dir contains : ',data)
         }
     );
 
 ```
+
+```javascript
+
+//clone this repo!
+
+    var cmd=require('node-cmd');
+    
+    const syncClone=cmd.runSync('git clone https://github.com/RIAEvangelist/node-cmd.git');
+
+    console.log(syncClone);
+    
+```
+
 
 ### Getting the CMD Process ID
 
