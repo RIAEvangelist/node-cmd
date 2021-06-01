@@ -1,6 +1,6 @@
 var cmd=require('../cmd.js');
 
-const syncDir = cmd.getSync("pwd");
+const syncDir = cmd.runSync("pwd");
 
 console.log(`
 

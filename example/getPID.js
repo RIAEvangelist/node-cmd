@@ -1,4 +1,4 @@
 var cmd=require('../cmd.js');
 
-var processRef=cmd.get('node');
+var processRef=cmd.run('node');
 console.log(processRef.pid);
