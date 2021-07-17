@@ -63,15 +63,15 @@ ls`,
 
 //Windows multiline commands are not guaranteed to work try condensing to a single line.
     
-    const syncData=cmd.runSync('cd ./example & dir');
+    const syncDir=cmd.runSync('cd ./example & dir');
 
     console.log(`
     
-        Sync Err ${syncData.err}
+        Sync Err ${syncDir.err}
         
         Sync stderr:  ${syncDir.stderr}
 
-        Sync Data ${syncData.data}
+        Sync Data ${syncDir.data}
     
     `);
 
