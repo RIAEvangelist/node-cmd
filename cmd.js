@@ -3,9 +3,6 @@ const { exec, execSync } = require('child_process');
 const commandline={
     run:runCommand,
     runSync:runSync,
-    //will be deprecated soon as run is now the same.
-    get:runCommand,
-    
 };
 
 function runCommand(command,callback){

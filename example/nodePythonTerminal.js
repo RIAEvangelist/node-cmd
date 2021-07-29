@@ -1,6 +1,6 @@
 const cmd=require('../cmd.js');
 
-const processRef=cmd.get('python -i');
+const processRef=cmd.run('python -i');
 let data_line = '';
 
 //listen to the python terminal output
