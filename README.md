@@ -1,5 +1,7 @@
 # node-cmd
 
+[![Sponsor RIAEvangelist to help development of node-cmd](https://img.shields.io/static/v1?label=Sponsor%20Me%20On%20Github&message=%E2%9D%A4&logo=GitHub&link=https://github.com/sponsors/RIAEvangelist)](https://github.com/sponsors/RIAEvangelist)
+
 *Node.js commandline/terminal interface.*  
 
 Simple commandline, terminal, or shell interface to allow you to run cli or bash style commands as if you were in the terminal.
