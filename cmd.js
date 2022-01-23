@@ -1,8 +1,10 @@
 const { exec, execSync } = require('child_process'); 
+const execPromisified = require("util").promisify(exec);
 
 const commandline={
     run:runCommand,
     runSync:runSync,
+    runPromisified:runPromisified,
 };
 
 function runCommand(command,callback){
@@ -20,6 +22,10 @@ function runCommand(command,callback){
             }
         )(callback)
     );
+}
+
+function runPromisified(command, options) {
+    return execPromisified(command, options);
 }
 
 function runSync(command){
