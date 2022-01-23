@@ -156,5 +156,13 @@ for prime in primes:
 5
 7
 
+```
 
+### Using the promise API
+
+```javascript
+var cmd = require("node-cmd");
+const { stderr, stdout } = await cmd.runPromisified(`echo from node`, { encoding: 'utf8' });
+if (stderr) throw stderr;
+console.log(stdout);
 ```
