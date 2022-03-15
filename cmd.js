@@ -5,6 +5,18 @@ const commandline={
     runSync:runSync,
 };
 
+/**
+ * @description Synchronous operation instruction
+ * @param command {string}
+ * @param callback {{error: ExecException | null, stdout: string, stderr: string}|function():{error: ExecException | null, stdout: string, stderr: string}}
+ * @return {ChildProcess}
+ * @example
+ * runCommand('node -v',(err,data)=>{
+ *  if (err) console.log(err);
+ *  console.log(data);
+ * })
+ */
+
 function runCommand(command,callback){
     
     return exec(
@@ -21,6 +33,15 @@ function runCommand(command,callback){
         )(callback)
     );
 }
+
+/**
+ * @description Asynchronous operation instruction
+ * @param command
+ * @return {{data: null, err: string, stderr: string}|{data: string, err: null, stderr: null}}
+ * @example
+   const {data,err,stderr} = runSync('node -v')
+   console.log(err,data,stderr)
+ **/
 
 function runSync(command){
     try {
