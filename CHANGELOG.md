@@ -2,9 +2,7 @@
 
 All notable changes to this project are documented here.
 
-## [6.0.0] - Unreleased
-
-Version 6.0.0 is prepared in the repository but is not considered published until the npm release exists.
+## [6.0.0] - 2026-08-14
 
 ### Added
 
@@ -17,7 +15,7 @@ Version 6.0.0 is prepared in the repository but is not considered published unti
 - `runFilePromisified` as an alias of `runFilePromise()`.
 - `runStream()` as an unbuffered `spawn()` wrapper for long-running, high-output, and interactive programs. It accepts direct arguments, avoids a shell by default, and returns the `ChildProcess`.
 - `AbortSignal`, timeout, working-directory, environment, encoding, shell, `maxBuffer`, kill-signal, and Windows window options where the underlying Node method supports them.
-- Node built-in tests and coverage, packed-package smoke tests, modern continuous integration, and GitHub Pages deployment.
+- A 17-case JavaScript suite and native Node coverage powered by the author's `vanilla-test` 2.0.0 module, plus packed-package smoke tests, cross-platform continuous integration, and GitHub Pages deployment.
 - A new project site, migration guide, changelog, and security guidance.
 
 ### Changed

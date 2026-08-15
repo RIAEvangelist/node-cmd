@@ -28,8 +28,439 @@
 }
 
 html {
-    scroll-behavior: smooth;
+    scroll-behavior: auto;
     scroll-padding-top: 6rem;
+}
+
+/* Multi-page engineering documentation */
+
+.primary-navigation {
+    gap: 1rem;
+}
+
+.primary-navigation a[aria-current="page"] {
+    color: var(--cyan-bright);
+}
+
+.primary-navigation a[aria-current="page"]::after {
+    display: block;
+    width: 100%;
+    height: 1px;
+    margin-top: .2rem;
+    background: var(--cyan);
+    content: "";
+}
+
+.doc-main {
+    width: min(76rem, calc(100% - 3rem));
+    margin-inline: auto;
+}
+
+.page-hero {
+    max-width: 68rem;
+    padding: clamp(5rem, 10vw, 8.5rem) 0 clamp(3.5rem, 7vw, 6rem);
+}
+
+.page-hero h1 {
+    max-width: none;
+    margin: 0;
+    font-size: clamp(3.5rem, 9vw, 7.4rem);
+    letter-spacing: -.07em;
+    line-height: .94;
+}
+
+.page-hero > p:not(.eyebrow) {
+    max-width: 54rem;
+    margin: 1.75rem 0 0;
+    color: var(--muted);
+    font-size: clamp(1.08rem, 2vw, 1.35rem);
+}
+
+.page-actions {
+    display: flex;
+    margin-top: 2rem;
+    flex-wrap: wrap;
+    gap: .75rem;
+}
+
+.doc-article {
+    display: grid;
+    padding-bottom: clamp(4rem, 9vw, 8rem);
+    gap: 1.25rem;
+}
+
+.doc-section {
+    padding: clamp(1.6rem, 4vw, 3rem);
+    border: 1px solid var(--line);
+    border-radius: 1rem;
+    background: linear-gradient(145deg, rgba(16, 28, 46, .8), rgba(7, 13, 25, .78));
+    box-shadow: inset 0 1px rgba(255, 255, 255, .025);
+}
+
+.doc-section h2 {
+    margin: .35rem 0 1rem;
+    font-size: clamp(1.65rem, 4vw, 2.65rem);
+    letter-spacing: -.045em;
+    line-height: 1.08;
+}
+
+.doc-section h2 code {
+    color: var(--cyan-bright);
+    font-size: .8em;
+}
+
+.doc-section h3 {
+    margin: 1.3rem 0 .65rem;
+    color: var(--ink);
+    font-size: 1rem;
+}
+
+.doc-section > p,
+.doc-section li,
+.contract-list dd {
+    color: var(--muted);
+}
+
+.doc-section a {
+    color: var(--cyan-bright);
+}
+
+.section-kicker {
+    color: var(--amber);
+    font: 800 .7rem/1.2 var(--mono);
+    letter-spacing: .12em;
+    text-transform: uppercase;
+}
+
+.doc-section pre {
+    overflow: auto;
+    margin: 1.35rem 0;
+    padding: 1.25rem;
+    border: 1px solid rgba(69, 232, 255, .14);
+    border-radius: .75rem;
+    background: #050a13;
+    color: #d8e7f5;
+    font: 500 .82rem/1.72 var(--mono);
+    tab-size: 4;
+}
+
+.doc-section :not(pre) > code,
+.callout code,
+.contract-list code,
+.test-inventory code,
+.change-list code,
+.checklist code {
+    padding: .08rem .3rem;
+    border: 1px solid rgba(69, 232, 255, .12);
+    border-radius: .3rem;
+    background: rgba(69, 232, 255, .06);
+    color: var(--cyan-bright);
+    font-size: .88em;
+}
+
+.two-column-code,
+.two-column,
+.boundary-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1rem;
+}
+
+.two-column-code > div,
+.two-column > div,
+.boundary-card {
+    min-width: 0;
+    padding: 1rem;
+    border: 1px solid var(--line);
+    border-radius: .75rem;
+    background: rgba(3, 7, 17, .55);
+}
+
+.two-column-code pre,
+.two-column pre {
+    margin-bottom: 0;
+}
+
+.risk-heading {
+    color: var(--rose) !important;
+}
+
+.safe-heading {
+    color: var(--cyan-bright) !important;
+}
+
+.table-wrap {
+    overflow-x: auto;
+    margin: 1.35rem 0;
+    border: 1px solid var(--line);
+    border-radius: .75rem;
+}
+
+.reference-table {
+    width: 100%;
+    min-width: 44rem;
+    border-collapse: collapse;
+    background: rgba(3, 7, 17, .45);
+    text-align: left;
+}
+
+.reference-table th,
+.reference-table td {
+    padding: .9rem 1rem;
+    border-bottom: 1px solid var(--line);
+    vertical-align: top;
+}
+
+.reference-table th {
+    background: rgba(69, 232, 255, .055);
+    color: var(--cyan-bright);
+    font: 800 .69rem/1.4 var(--mono);
+    letter-spacing: .06em;
+    text-transform: uppercase;
+}
+
+.reference-table td {
+    color: var(--muted);
+    font-size: .9rem;
+}
+
+.reference-table tbody tr:last-child td {
+    border-bottom: 0;
+}
+
+.reference-table.compact {
+    min-width: 38rem;
+}
+
+.callout {
+    margin-top: 1.25rem;
+    padding: 1rem 1.1rem;
+    border: 1px solid var(--line-strong);
+    border-left: .22rem solid var(--cyan);
+    border-radius: .5rem;
+    background: rgba(69, 232, 255, .055);
+    color: var(--muted);
+}
+
+.callout strong {
+    color: var(--ink);
+}
+
+.callout.warning {
+    border-color: var(--amber-line);
+    border-left-color: var(--amber);
+    background: rgba(255, 195, 92, .055);
+}
+
+.contract-list {
+    display: grid;
+    margin: 1.35rem 0 0;
+    gap: .7rem;
+}
+
+.contract-list > div {
+    display: grid;
+    padding: .85rem 0;
+    border-top: 1px solid var(--line);
+    grid-template-columns: minmax(8rem, .28fr) 1fr;
+    gap: 1rem;
+}
+
+.contract-list dt {
+    color: var(--ink);
+    font-weight: 800;
+}
+
+.contract-list dd {
+    margin: 0;
+}
+
+.metric-grid,
+.release-summary {
+    display: grid;
+    margin: 0 0 1.25rem;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1px;
+    overflow: hidden;
+    border: 1px solid var(--line-strong);
+    border-radius: .9rem;
+    background: var(--line);
+}
+
+.metric-card,
+.release-summary article {
+    display: grid;
+    min-height: 8rem;
+    padding: 1.25rem;
+    align-content: center;
+    background: rgba(8, 15, 28, .96);
+}
+
+.metric-card strong,
+.release-summary strong {
+    color: var(--cyan-bright);
+    font: 850 clamp(1.5rem, 3vw, 2.2rem)/1 var(--mono);
+}
+
+.metric-card span,
+.release-summary span {
+    margin-top: .55rem;
+    color: var(--quiet);
+    font-size: .74rem;
+    font-weight: 750;
+    letter-spacing: .04em;
+    text-transform: uppercase;
+}
+
+.test-inventory,
+.change-list,
+.engineering-list,
+.checklist {
+    display: grid;
+    margin: 1.2rem 0 0;
+    padding-left: 1.35rem;
+    gap: .75rem;
+}
+
+.test-inventory li::marker,
+.change-list li::marker,
+.engineering-list li::marker,
+.checklist li::marker {
+    color: var(--cyan);
+    font-family: var(--mono);
+    font-weight: 800;
+}
+
+.test-inventory strong,
+.engineering-list strong,
+.change-list strong,
+.checklist strong {
+    color: var(--ink);
+}
+
+.boundary-card h3 {
+    margin-top: 0;
+}
+
+.boundary-card ul {
+    display: grid;
+    margin: .8rem 0 0;
+    padding-left: 1.2rem;
+    gap: .55rem;
+}
+
+.boundary-card.good {
+    border-color: rgba(69, 232, 255, .25);
+}
+
+.boundary-card.risk {
+    border-color: rgba(255, 131, 158, .28);
+}
+
+.boundary-card.good h3 {
+    color: var(--cyan-bright);
+}
+
+.boundary-card.risk h3 {
+    color: var(--rose);
+}
+
+.next-docs {
+    display: grid;
+    margin: 0 0 clamp(4rem, 9vw, 8rem);
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+}
+
+.next-docs a {
+    display: grid;
+    min-height: 7rem;
+    padding: 1.25rem;
+    align-content: center;
+    border: 1px solid var(--line);
+    border-radius: .75rem;
+    background: rgba(11, 19, 34, .72);
+    text-decoration: none;
+    transition: border-color 150ms ease, transform 150ms ease;
+}
+
+.next-docs a:hover,
+.next-docs a:focus-visible {
+    border-color: var(--cyan);
+    transform: translateY(-2px);
+}
+
+.next-docs span {
+    color: var(--quiet);
+    font: 750 .68rem/1.3 var(--mono);
+    letter-spacing: .08em;
+    text-transform: uppercase;
+}
+
+.next-docs strong {
+    margin-top: .45rem;
+    color: var(--ink);
+}
+
+@media (max-width: 64rem) {
+    .primary-navigation {
+        gap: .72rem;
+    }
+
+    .primary-navigation a {
+        font-size: .78rem;
+    }
+
+    .metric-grid,
+    .release-summary {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 52rem) {
+    .doc-main {
+        width: min(100% - 2rem, 76rem);
+    }
+
+    .primary-navigation a[aria-current="page"]::after {
+        display: none;
+    }
+
+    .two-column-code,
+    .two-column,
+    .boundary-grid,
+    .next-docs {
+        grid-template-columns: 1fr;
+    }
+
+    .contract-list > div {
+        grid-template-columns: 1fr;
+        gap: .3rem;
+    }
+}
+
+@media (max-width: 38rem) {
+    .page-hero {
+        padding-top: 4rem;
+    }
+
+    .page-hero h1 {
+        font-size: clamp(3rem, 16vw, 4.8rem);
+    }
+
+    .page-actions .button {
+        width: 100%;
+    }
+
+    .metric-grid,
+    .release-summary {
+        grid-template-columns: 1fr;
+    }
+
+    .metric-card,
+    .release-summary article {
+        min-height: 6.5rem;
+    }
 }
 
 body {
@@ -1615,5 +2046,20 @@ h1 em {
     .reveal {
         opacity: 1;
         transform: none;
+    }
+}
+
+/* Final navigation sizing overrides for the six-page documentation set. */
+.primary-navigation {
+    gap: 1rem;
+}
+
+@media (max-width: 64rem) {
+    .primary-navigation {
+        gap: .72rem;
+    }
+
+    .primary-navigation a {
+        font-size: .78rem;
     }
 }

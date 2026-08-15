@@ -1,0 +1,228 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content="node-cmd v6 API reference: shell commands, direct executable calls, Promises, synchronous results, streams, options, errors, and ChildProcess control.">
+        <meta name="theme-color" content="#060b16">
+        <meta property="og:type" content="website">
+        <meta property="og:title" content="node-cmd v6 API reference">
+        <meta property="og:description" content="Signatures, overloads, return values, execution boundaries, errors, and process lifecycle details.">
+        <meta property="og:url" content="https://riaevangelist.github.io/node-cmd/api.html">
+        <meta property="og:image" content="https://riaevangelist.github.io/node-cmd/og.png">
+        <meta name="twitter:card" content="summary_large_image">
+        <meta name="twitter:title" content="node-cmd v6 API reference">
+        <meta name="twitter:image" content="https://riaevangelist.github.io/node-cmd/og.png">
+        <link rel="canonical" href="https://riaevangelist.github.io/node-cmd/api.html">
+        <title>API reference — node-cmd v6</title>
+        <link rel="stylesheet" href="./styles.css">
+        <script src="./script.js" defer></script>
+    </head>
+    <body data-page="api">
+        <a class="skip-link" href="#main">Skip to content</a>
+        <div class="scroll-progress" aria-hidden="true"><span></span></div>
+        <header class="site-header" data-header>
+            <div class="header-inner">
+                <a class="wordmark" href="./index.html" aria-label="node-cmd home"><span class="wordmark-mark" aria-hidden="true">&gt;_</span><span class="wordmark-name">node-cmd</span><span class="version-badge">v6.0.0</span></a>
+                <button class="menu-button" type="button" aria-expanded="false" aria-controls="primary-navigation" data-menu-button><span class="menu-button-label">Menu</span><span class="menu-button-icon" aria-hidden="true"><i></i><i></i></span></button>
+                <nav class="primary-navigation" id="primary-navigation" aria-label="Documentation" data-navigation>
+                    <a href="./index.html">Home</a><a href="./api.html" aria-current="page">API</a><a href="./testing.html">Testing</a><a href="./security.html">Security</a><a href="./migration.html">Migration</a><a href="./changelog.html">Changes</a><a class="nav-github" href="https://github.com/RIAEvangelist/node-cmd">GitHub <span aria-hidden="true">↗</span></a>
+                </nav>
+            </div>
+        </header>
+
+        <main id="main" class="doc-main">
+            <header class="page-hero">
+                <p class="eyebrow"><span>Reference</span> node-cmd v6</p>
+                <h1>API reference</h1>
+                <p>Exact signatures, execution boundaries, return values, error behavior, and lifecycle control for every exported method.</p>
+                <div class="page-actions"><a class="button button-primary" href="./security.html">Review the security boundary</a><a class="button button-secondary" href="https://github.com/RIAEvangelist/node-cmd/blob/main/cmd.js">Read the source ↗</a></div>
+            </header>
+
+            <article class="doc-article">
+                <section class="doc-section">
+                    <div class="section-kicker">01 / Load</div>
+                    <h2>CommonJS and native ES modules</h2>
+                    <div class="two-column-code">
+                        <div><h3>CommonJS</h3><pre><code>const cmd = require('node-cmd');
+
+const { run, runFile, runStream } = cmd;</code></pre></div>
+                        <div><h3>ES modules</h3><pre><code>import cmd, {
+    run,
+    runFile,
+    runStream
+} from 'node-cmd';</code></pre></div>
+                    </div>
+                    <p>The default export and named exports point to the same implementations. Existing deep imports through <code>node-cmd/cmd</code> and <code>node-cmd/cmd.js</code> remain exported for compatibility; new code should import the package root.</p>
+                </section>
+
+                <section class="doc-section">
+                    <div class="section-kicker">02 / Surface</div>
+                    <h2>Method matrix</h2>
+                    <div class="table-wrap">
+                        <table class="reference-table">
+                            <thead><tr><th>Method</th><th>Execution</th><th>Output</th><th>Returns</th></tr></thead>
+                            <tbody>
+                                <tr><td><code>run(command, options?, callback?)</code></td><td>Shell string</td><td>Buffered by <code>exec</code>; streams also live</td><td><code>ChildProcess</code></td></tr>
+                                <tr><td><code>runPromise(command, options?)</code></td><td>Shell string</td><td>Buffered</td><td><code>Promise&lt;{stdout, stderr}&gt;</code> with <code>.child</code></td></tr>
+                                <tr><td><code>runSync(command, options?)</code></td><td>Shell string</td><td>Buffered</td><td><code>{data, err, stderr}</code></td></tr>
+                                <tr><td><code>runFile(file, args?, options?, callback?)</code></td><td>Direct executable</td><td>Buffered by <code>execFile</code>; streams also live</td><td><code>ChildProcess</code></td></tr>
+                                <tr><td><code>runFilePromise(file, args?, options?)</code></td><td>Direct executable</td><td>Buffered</td><td><code>Promise&lt;{stdout, stderr}&gt;</code> with <code>.child</code></td></tr>
+                                <tr><td><code>runFileSync(file, args?, options?)</code></td><td>Direct executable</td><td>Buffered</td><td><code>{data, err, stderr}</code></td></tr>
+                                <tr><td><code>runStream(file, args?, options?)</code></td><td>Direct executable</td><td>Unbuffered</td><td><code>ChildProcess</code></td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="callout"><strong>Aliases.</strong> <code>runPromisified</code> is the exact same function as <code>runPromise</code>. <code>runFilePromisified</code> is the exact same function as <code>runFilePromise</code>.</div>
+                </section>
+
+                <section class="doc-section method-doc">
+                    <div class="section-kicker">03 / Shell async</div>
+                    <h2><code>run(command, options?, callback?)</code></h2>
+                    <p>Starts <code>command</code> through the platform shell using Node’s <code>child_process.exec()</code>. Shell syntax—including pipes, redirection, substitutions, and separators—is interpreted by that shell.</p>
+                    <pre><code>const child = cmd.run(
+    'git status --short',
+    { cwd: './project', timeout: 30_000 },
+    (error, stdout, stderr) =&gt; {
+        if (error) {
+            console.error(stderr || error.message);
+            return;
+        }
+        console.log(stdout);
+    }
+);
+
+console.log(child.pid);</code></pre>
+                    <dl class="contract-list">
+                        <div><dt>Callback</dt><dd><code>(error, data, stderr)</code>. <code>data</code> is stdout, preserving the classic node-cmd callback name.</dd></div>
+                        <div><dt>Without callback</dt><dd>The command still starts. Consume <code>child.stdout</code>, <code>child.stderr</code>, and lifecycle events directly.</dd></div>
+                        <div><dt>Return</dt><dd>Always the immediate <code>ChildProcess</code> returned by Node.</dd></div>
+                    </dl>
+                </section>
+
+                <section class="doc-section method-doc">
+                    <div class="section-kicker">04 / Shell Promise</div>
+                    <h2><code>runPromise(command, options?)</code></h2>
+                    <p>Runs the same shell-string path and resolves after buffered execution completes.</p>
+                    <pre><code>const task = cmd.runPromise('npm test', {
+    cwd: './project',
+    timeout: 30_000
+});
+
+console.log(task.child.pid);
+const { stdout, stderr } = await task;</code></pre>
+                    <p>The Promise exposes Node’s immediate process handle as <code>task.child</code>. On nonzero exit, timeout, buffer overflow, or cancellation, it rejects with Node’s execution error; collected <code>stdout</code> and <code>stderr</code> remain attached to that error.</p>
+                </section>
+
+                <section class="doc-section method-doc">
+                    <div class="section-kicker">05 / Shell sync</div>
+                    <h2><code>runSync(command, options?)</code></h2>
+                    <p>Uses <code>execSync()</code> and preserves node-cmd’s non-throwing result envelope for ordinary execution and validation failures.</p>
+                    <pre><code>const result = cmd.runSync('node --version');
+
+if (result.err) {
+    console.error(result.stderr || result.err);
+} else {
+    console.log(result.data);
+}</code></pre>
+                    <div class="table-wrap">
+                        <table class="reference-table compact"><thead><tr><th>Outcome</th><th><code>data</code></th><th><code>err</code></th><th><code>stderr</code></th></tr></thead><tbody><tr><td>Success</td><td>stdout</td><td><code>null</code></td><td><code>null</code></td></tr><tr><td>Failure</td><td><code>null</code></td><td>stderr when present, otherwise the error message</td><td>captured stderr or an empty value</td></tr></tbody></table>
+                    </div>
+                    <p>Defaults are <code>encoding: 'utf8'</code> and <code>stdio: 'pipe'</code>. Explicit non-<code>undefined</code> option values win. Use <code>encoding: 'buffer'</code> or <code>null</code> for buffers.</p>
+                </section>
+
+                <section class="doc-section method-doc">
+                    <div class="section-kicker">06 / Direct buffered</div>
+                    <h2><code>runFile*</code></h2>
+                    <p>The direct methods call Node’s <code>execFile</code> family. The executable and arguments stay separate, and no shell starts unless <code>options.shell</code> is explicitly enabled.</p>
+                    <pre><code>const values = ['with spaces', 'semi;colon', 'ampersand&amp;value'];
+
+const { stdout } = await cmd.runFilePromise(
+    'tool',
+    ['--format', 'json', '--value', ...values],
+    { cwd: './project' }
+);</code></pre>
+                    <dl class="contract-list">
+                        <div><dt><code>runFile</code></dt><dd>Callback form; returns the immediate <code>ChildProcess</code>.</dd></div>
+                        <div><dt><code>runFilePromise</code></dt><dd>Resolves <code>{stdout, stderr}</code>; the returned Promise exposes <code>.child</code>.</dd></div>
+                        <div><dt><code>runFileSync</code></dt><dd>Returns the same <code>{data, err, stderr}</code> envelope as <code>runSync</code>.</dd></div>
+                    </dl>
+                    <p><code>args</code> may be omitted, <code>undefined</code>, or <code>null</code>. An options object may occupy that position. Callback overloads accept <code>(file, callback)</code>, <code>(file, args, callback)</code>, <code>(file, options, callback)</code>, and <code>(file, args, options, callback)</code>.</p>
+                </section>
+
+                <section class="doc-section method-doc">
+                    <div class="section-kicker">07 / Direct streaming</div>
+                    <h2><code>runStream(file, args?, options?)</code></h2>
+                    <p>Wraps <code>child_process.spawn()</code> for long-running, interactive, or high-output programs. Output is not accumulated into a final object, so <code>maxBuffer</code> and buffered-output <code>encoding</code> do not apply.</p>
+                    <pre><code>const child = cmd.runStream(
+    'node',
+    ['worker.js'],
+    { stdio: ['pipe', 'pipe', 'pipe'] }
+);
+
+child.stdout.setEncoding('utf8');
+child.stdout.on('data', console.log);
+child.stdin.write('start\n');
+child.once('close', (code, signal) =&gt; {
+    console.log({ code, signal });
+});</code></pre>
+                    <p>Set stream encodings on the streams themselves. The no-shell default keeps each element of <code>args</code> as one argument. Enabling <code>options.shell</code> restores shell parsing and its security implications.</p>
+                </section>
+
+                <section class="doc-section">
+                    <div class="section-kicker">08 / Options</div>
+                    <h2>Forwarded Node options</h2>
+                    <p>node-cmd forwards options to the matching Node child-process method. Availability depends on that underlying method.</p>
+                    <div class="table-wrap">
+                        <table class="reference-table">
+                            <thead><tr><th>Option</th><th>Purpose</th><th>Important behavior</th></tr></thead>
+                            <tbody>
+                                <tr><td><code>cwd</code></td><td>Child working directory</td><td>Resolve and authorize it before execution.</td></tr>
+                                <tr><td><code>env</code></td><td>Child environment</td><td>Supplying an object replaces the inherited environment passed by Node; include only required values.</td></tr>
+                                <tr><td><code>encoding</code></td><td>Buffered output encoding</td><td>Use <code>'buffer'</code> or <code>null</code> for buffers. Not a <code>runStream</code> option.</td></tr>
+                                <tr><td><code>timeout</code></td><td>Delay before Node requests termination</td><td>Not a guaranteed wall-clock deadline or process-tree kill.</td></tr>
+                                <tr><td><code>signal</code></td><td><code>AbortSignal</code> cancellation</td><td>Supported by asynchronous Node methods; rejection is normally an <code>AbortError</code>.</td></tr>
+                                <tr><td><code>shell</code></td><td>Select or enable a shell</td><td>Direct methods become shell-parsed when enabled.</td></tr>
+                                <tr><td><code>maxBuffer</code></td><td>Bound buffered stdout/stderr</td><td>Overflow terminates buffered execution. Not used by <code>runStream</code>.</td></tr>
+                                <tr><td><code>killSignal</code></td><td>Signal for timeout/cancellation</td><td>Process response is platform- and program-dependent.</td></tr>
+                                <tr><td><code>windowsHide</code></td><td>Hide subprocess window on Windows</td><td>Passed through where Node supports it.</td></tr>
+                                <tr><td><code>stdio</code></td><td>Configure direct process streams</td><td>Most relevant to <code>runStream</code>; synchronous wrappers default to captured pipes.</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <section class="doc-section">
+                    <div class="section-kicker">09 / Lifecycle</div>
+                    <h2>ChildProcess control, cancellation, and failure</h2>
+                    <div class="two-column">
+                        <div><h3>Abort buffered work</h3><pre><code>const controller = new AbortController();
+const task = cmd.runPromise(command, {
+    signal: controller.signal
+});
+
+controller.abort();
+await task;</code></pre></div>
+                        <div><h3>Terminate manually</h3><pre><code>const child = cmd.runStream(file, args);
+
+child.once('error', handleStartError);
+child.once('close', handleClose);
+child.kill('SIGTERM');</code></pre></div>
+                    </div>
+                    <div class="callout warning"><strong>Process-tree boundary.</strong> A timeout, abort, or <code>child.kill()</code> targets the immediate child according to Node and operating-system behavior. Descendants may survive, and an uncooperative process may not exit promptly.</div>
+                </section>
+
+                <section class="doc-section">
+                    <div class="section-kicker">10 / Platform</div>
+                    <h2>Cross-platform contract</h2>
+                    <p>Shell strings normally use <code>/bin/sh</code> on Unix-like systems and <code>ComSpec</code> on Windows. Quoting, expansion, separators, and built-ins differ. Prefer <code>runFile*</code> or <code>runStream</code> for portable executable calls. Windows <code>.bat</code> and <code>.cmd</code> files require a command shell.</p>
+                    <p>node-cmd does not request administrator, root, or UAC elevation. Children inherit the privileges of the Node.js process that starts them.</p>
+                </section>
+            </article>
+
+            <nav class="next-docs" aria-label="Continue reading"><a href="./testing.html"><span>Next</span><strong>Testing &amp; coverage →</strong></a><a href="./security.html"><span>Related</span><strong>Security model →</strong></a></nav>
+        </main>
+
+        <footer class="site-footer"><div class="footer-inner"><a class="wordmark" href="./index.html"><span class="wordmark-mark" aria-hidden="true">&gt;_</span><span class="wordmark-name">node-cmd</span></a><p>API reference for command-line and process control. <span data-year></span></p><div class="footer-links"><a href="https://www.npmjs.com/package/node-cmd">npm</a><a href="https://github.com/RIAEvangelist/node-cmd">GitHub</a><a href="https://github.com/RIAEvangelist/node-cmd/blob/main/licence">License</a></div></div></footer>
+    </body>
+</html>

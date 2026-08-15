@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content="How node-cmd v6 is tested with vanilla-test 2.0.0: behavior inventory, native Node coverage, thresholds, CI matrix, and packed-package verification.">
+        <meta name="theme-color" content="#060b16">
+        <meta property="og:type" content="website">
+        <meta property="og:title" content="Testing and coverage — node-cmd v6">
+        <meta property="og:description" content="17 JavaScript behavior tests, native V8 coverage gates, three operating systems, two Node releases, and a packed-package smoke test.">
+        <meta property="og:url" content="https://riaevangelist.github.io/node-cmd/testing.html">
+        <meta property="og:image" content="https://riaevangelist.github.io/node-cmd/og.png">
+        <meta name="twitter:card" content="summary_large_image">
+        <meta name="twitter:title" content="Testing and coverage — node-cmd v6">
+        <meta name="twitter:image" content="https://riaevangelist.github.io/node-cmd/og.png">
+        <link rel="canonical" href="https://riaevangelist.github.io/node-cmd/testing.html">
+        <title>Testing and coverage — node-cmd v6</title>
+        <link rel="stylesheet" href="./styles.css">
+        <script src="./script.js" defer></script>
+    </head>
+    <body data-page="testing">
+        <a class="skip-link" href="#main">Skip to content</a>
+        <div class="scroll-progress" aria-hidden="true"><span></span></div>
+        <header class="site-header" data-header><div class="header-inner"><a class="wordmark" href="./index.html" aria-label="node-cmd home"><span class="wordmark-mark" aria-hidden="true">&gt;_</span><span class="wordmark-name">node-cmd</span><span class="version-badge">v6.0.0</span></a><button class="menu-button" type="button" aria-expanded="false" aria-controls="primary-navigation" data-menu-button><span class="menu-button-label">Menu</span><span class="menu-button-icon" aria-hidden="true"><i></i><i></i></span></button><nav class="primary-navigation" id="primary-navigation" aria-label="Documentation" data-navigation><a href="./index.html">Home</a><a href="./api.html">API</a><a href="./testing.html" aria-current="page">Testing</a><a href="./security.html">Security</a><a href="./migration.html">Migration</a><a href="./changelog.html">Changes</a><a class="nav-github" href="https://github.com/RIAEvangelist/node-cmd">GitHub <span aria-hidden="true">↗</span></a></nav></div></header>
+
+        <main id="main" class="doc-main">
+            <header class="page-hero">
+                <p class="eyebrow"><span>Evidence</span> vanilla-test 2.0.0</p>
+                <h1>Testing &amp; coverage</h1>
+                <p>The public API is exercised as JavaScript through the author’s own <code>vanilla-test</code> module, then measured without transforming node-cmd source.</p>
+                <div class="page-actions"><a class="button button-primary" href="./coverage/">Open the HTML coverage report</a><a class="button button-secondary" href="https://github.com/RIAEvangelist/node-cmd/actions/workflows/ci.yml">View CI runs ↗</a></div>
+            </header>
+
+            <section class="metric-grid" aria-label="Current verification results">
+                <article class="metric-card"><strong>17 / 17</strong><span>behavior tests passing</span></article>
+                <article class="metric-card"><strong>100%</strong><span>statements</span></article>
+                <article class="metric-card"><strong>95.23%</strong><span>branches</span></article>
+                <article class="metric-card"><strong>100%</strong><span>functions and lines</span></article>
+            </section>
+
+            <article class="doc-article">
+                <section class="doc-section">
+                    <div class="section-kicker">01 / Tooling</div>
+                    <h2>vanilla-test owns the suite and coverage command</h2>
+                    <p><a href="https://github.com/RIAEvangelist/vanilla-test"><code>vanilla-test@2.0.0</code></a> is node-cmd’s only direct development dependency. The shipped package declares no runtime dependencies, and npm does not install the test tool for node-cmd consumers.</p>
+                    <pre><code>{
+  "scripts": {
+    "test": "node ./test/node.mjs",
+    "coverage": "vanilla-test coverage node",
+    "verify": "npm test &amp;&amp; npm run coverage &amp;&amp; npm run test:package &amp;&amp; npm run site:check"
+  },
+  "devDependencies": {
+    "vanilla-test": "2.0.0"
+  }
+}</code></pre>
+                    <p>The suite uses <code>VanillaTest</code> for case lifecycle and reporting. Node’s built-in <code>node:assert/strict</code> supplies precise deep equality, rejection, and pattern assertions; no separate assertion framework is installed.</p>
+                </section>
+
+                <section class="doc-section">
+                    <div class="section-kicker">02 / Coverage contract</div>
+                    <h2>Per-file native Node coverage gates</h2>
+                    <p><code>vanilla-test coverage node</code> executes the same suite under native V8 coverage and publishes text, HTML, LCOV, and JSON summary reports. Both shipped entry points are included.</p>
+                    <pre><code>{
+  "entry": "./test/api.test.js",
+  "thresholds": {
+    "statements": 100,
+    "branches": 95,
+    "functions": 100,
+    "lines": 100
+  },
+  "node": {
+    "include": ["cmd.js", "cmd.mjs"]
+  }
+}</code></pre>
+                    <div class="table-wrap">
+                        <table class="reference-table"><thead><tr><th>Source</th><th>Statements</th><th>Branches</th><th>Functions</th><th>Lines</th></tr></thead><tbody><tr><td>All shipped source</td><td>100%</td><td>95.23%</td><td>100%</td><td>100%</td></tr><tr><td><code>cmd.js</code></td><td>100%</td><td>95.16%</td><td>100%</td><td>100%</td></tr><tr><td><code>cmd.mjs</code></td><td>100%</td><td>100%</td><td>100%</td><td>100%</td></tr></tbody></table>
+                    </div>
+                    <div class="callout"><strong>Report paths.</strong> Local runs write <code>coverage/node/index.html</code>, <code>lcov.info</code>, and <code>coverage-summary.json</code>. CI publishes the same HTML tree at <a href="./coverage/">this site’s coverage report</a> and retains it as a workflow artifact.</div>
+                </section>
+
+                <section class="doc-section">
+                    <div class="section-kicker">03 / Behavior inventory</div>
+                    <h2>What the 17 tests prove</h2>
+                    <ol class="test-inventory">
+                        <li><strong>CommonJS surface:</strong> classic exports plus every v6 method and alias.</li>
+                        <li><strong>ESM surface:</strong> default and named exports resolve to the same implementations.</li>
+                        <li><strong>Shell callback:</strong> stdout, stderr, callback contract, and immediate process access.</li>
+                        <li><strong>Shell options:</strong> cwd, environment, encoding, and callback overload compatibility.</li>
+                        <li><strong>Live shell streams:</strong> <code>run()</code> works without a callback and exposes output.</li>
+                        <li><strong>Interactive stdin:</strong> data can be written through the returned child process.</li>
+                        <li><strong>Promise success:</strong> output shape and <code>promise.child</code> behavior.</li>
+                        <li><strong>Promise failure:</strong> exit code, stdout, and stderr stay attached to rejection.</li>
+                        <li><strong>Cancellation:</strong> <code>AbortSignal</code> reaches the Node execution primitive.</li>
+                        <li><strong>Synchronous contract:</strong> stable envelope, options, buffers, and failure capture.</li>
+                        <li><strong>Sync validation:</strong> invalid input returns the original error instead of cascading.</li>
+                        <li><strong>Sync stderr isolation:</strong> captured child stderr does not leak to the parent.</li>
+                        <li><strong>Literal arguments:</strong> shell metacharacters remain data in direct-file calls.</li>
+                        <li><strong>Direct callback overloads:</strong> args, options, omitted args, and stream access.</li>
+                        <li><strong>Direct Promises:</strong> success, failure, options, omitted args, and process handle.</li>
+                        <li><strong>Direct sync:</strong> success, buffers, omitted args, and failure envelope.</li>
+                        <li><strong>Unbuffered spawn:</strong> args/options overloads and writable stdin for <code>runStream</code>.</li>
+                    </ol>
+                </section>
+
+                <section class="doc-section">
+                    <div class="section-kicker">04 / CI matrix</div>
+                    <h2>Minimum runtime, current LTS, and three operating systems</h2>
+                    <div class="table-wrap"><table class="reference-table"><thead><tr><th>Operating system</th><th>Node 22.12</th><th>Node 24</th><th>Purpose</th></tr></thead><tbody><tr><td>Ubuntu</td><td>Full suite</td><td>Full suite</td><td>Unix shell/process behavior</td></tr><tr><td>macOS</td><td>Full suite</td><td>Full suite</td><td>Darwin process behavior</td></tr><tr><td>Windows</td><td>Full suite</td><td>Full suite</td><td><code>ComSpec</code>, quoting, and Windows process behavior</td></tr></tbody></table></div>
+                    <p>A separate Node 24 job enforces coverage. A package-smoke job creates the npm tarball, installs it into a clean temporary consumer, verifies CommonJS and ESM imports, confirms the v6 version and shipped files, and proves that development tooling is not installed for consumers.</p>
+                </section>
+
+                <section class="doc-section">
+                    <div class="section-kicker">05 / Reproduce</div>
+                    <h2>Run the same gates locally</h2>
+                    <pre><code>npm ci
+npm test
+npm run coverage
+npm run test:package
+npm run site:check
+
+# everything in release order
+npm run verify</code></pre>
+                    <dl class="contract-list"><div><dt><code>npm test</code></dt><dd>Runs all 17 cases once through <code>vanilla-test</code>.</dd></div><div><dt><code>npm run coverage</code></dt><dd>Runs the suite under the configured Node coverage thresholds.</dd></div><div><dt><code>npm run test:package</code></dt><dd>Tests what npm consumers actually receive, not the repository worktree.</dd></div><div><dt><code>npm run site:check</code></dt><dd>Checks every documentation page, local link, shared asset, and client script.</dd></div></dl>
+                </section>
+
+                <section class="doc-section">
+                    <div class="section-kicker">06 / Failure policy</div>
+                    <h2>Any failed case or gate stops delivery</h2>
+                    <p><code>vanilla-test</code> returns a structured result with <code>ok</code> and <code>failureCount</code>; the Node adapter maps it to the process exit code. Coverage thresholds, package smoke, and site validation also return nonzero on failure. GitHub Pages only assembles and deploys after tests, coverage, and package verification have all passed.</p>
+                </section>
+            </article>
+
+            <nav class="next-docs" aria-label="Continue reading"><a href="./api.html"><span>Reference</span><strong>API details →</strong></a><a href="./security.html"><span>Next</span><strong>Security model →</strong></a></nav>
+        </main>
+        <footer class="site-footer"><div class="footer-inner"><a class="wordmark" href="./index.html"><span class="wordmark-mark" aria-hidden="true">&gt;_</span><span class="wordmark-name">node-cmd</span></a><p>Tests and coverage are part of the product contract. <span data-year></span></p><div class="footer-links"><a href="./coverage/">Coverage</a><a href="https://github.com/RIAEvangelist/node-cmd">GitHub</a><a href="https://github.com/RIAEvangelist/vanilla-test">vanilla-test</a></div></div></footer>
+    </body>
+</html>

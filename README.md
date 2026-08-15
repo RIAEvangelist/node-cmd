@@ -1,8 +1,10 @@
-[![node-cmd — modern command execution for Node.js](https://raw.githubusercontent.com/RIAEvangelist/node-cmd/main/assets/node-cmd-header.png)](https://riaevangelist.github.io/node-cmd/)
+[![node-cmd — command-line and process control for JavaScript](https://raw.githubusercontent.com/RIAEvangelist/node-cmd/main/assets/node-cmd-header.png)](https://riaevangelist.github.io/node-cmd/)
 
 # node-cmd
 
 [Visit the node-cmd GitHub.io site](https://riaevangelist.github.io/node-cmd/)
+
+[API reference](https://riaevangelist.github.io/node-cmd/api.html) · [Testing & coverage](https://riaevangelist.github.io/node-cmd/testing.html) · [Security](https://riaevangelist.github.io/node-cmd/security.html) · [Migration](https://riaevangelist.github.io/node-cmd/migration.html) · [Changelog](https://riaevangelist.github.io/node-cmd/changelog.html)
 
 [![CI](https://github.com/RIAEvangelist/node-cmd/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/RIAEvangelist/node-cmd/actions/workflows/ci.yml?query=branch%3Amain)
 [![npm version](https://img.shields.io/npm/v/node-cmd.svg)](https://www.npmjs.com/package/node-cmd)
@@ -10,15 +12,14 @@
 [![license](https://img.shields.io/github/license/RIAEvangelist/node-cmd.svg)](licence)
 [![Node.js >=22.12](https://img.shields.io/badge/Node.js-%3E%3D22.12-339933?logo=nodedotjs&logoColor=white)](https://nodejs.org/)
 [![runtime dependencies](https://img.shields.io/badge/runtime_dependencies-0-2ea44f)](package.json)
+[![tests](https://img.shields.io/badge/tests-vanilla--test%202.0.0-16d9e3)](https://riaevangelist.github.io/node-cmd/testing.html)
+[![coverage](https://img.shields.io/badge/coverage-100%25%20statements-2ea44f)](https://riaevangelist.github.io/node-cmd/coverage/)
 
 [![Sponsor RIAEvangelist](https://img.shields.io/static/v1?label=Sponsor%20RIAEvangelist&message=%E2%9D%A4&logo=GitHub)](https://github.com/sponsors/RIAEvangelist)
 
-Run shell commands or executable files from Node.js with callbacks, promises, synchronous results, or unbuffered streams. `node-cmd` has zero runtime dependencies and supports both CommonJS and native ES modules.
+**Command-line power for JavaScript.** Run shell commands, launch executables, stream output, write to stdin, and control child processes from Node.js. `node-cmd` has zero runtime dependencies and supports both CommonJS and native ES modules.
 
 The original `run()` and `runSync()` APIs remain available. Version 6 adds forwarded execution options, Promise APIs, direct executable APIs that avoid a shell by default, an unbuffered `spawn` wrapper, and explicit cancellation support.
-
-> [!IMPORTANT]
-> Version 6 is prepared on `main` but is not yet published to npm. The npm badge and `npm install node-cmd` still refer to version 5 until a separate release is authorized. To evaluate the version 6 preview directly from this repository, use the preview install below.
 
 ## Install
 
@@ -26,15 +27,7 @@ The original `run()` and `runSync()` APIs remain available. Version 6 adds forwa
 npm install node-cmd
 ```
 
-Current published stable: version 5.
-
-```sh
-npm install github:RIAEvangelist/node-cmd#main
-```
-
-Repository preview: version 6.0.0 before its npm release.
-
-The version 6 preview requires Node.js 22.12 or newer.
+node-cmd 6 requires Node.js 22.12 or newer.
 
 ## Quick start
 
@@ -296,6 +289,22 @@ Prefer `runFile*()` or `runStream()` for portable executable calls. Windows `.ba
 
 `node-cmd` does not request administrator, root, or UAC elevation. Child processes inherit the privileges of the Node.js process that starts them.
 
+## Testing and coverage
+
+The project uses [`vanilla-test` 2.0.0](https://github.com/RIAEvangelist/vanilla-test) for both test execution and Node coverage. It is the only direct development dependency; the published `node-cmd` package keeps zero runtime dependencies.
+
+The suite is JavaScript and exercises every public API across CommonJS and ES modules, callbacks and Promises, synchronous execution, direct-file argument handling, streams, stdin, cancellation, errors, encoding, and option overloads.
+
+| Gate | Current result | Required |
+| --- | ---: | ---: |
+| Behavioral tests | 17 / 17 passing | All passing |
+| Statements | 100% | 100% |
+| Branches | 95.23% | 95% |
+| Functions | 100% | 100% |
+| Lines | 100% | 100% |
+
+Continuous integration runs the suite on Node.js 22.12 and Node.js 24 across Linux, macOS, and Windows. Coverage runs through `vanilla-test coverage node`, using native V8 execution without transforming `node-cmd` source. The generated engineer-readable HTML report is published at [node-cmd coverage](https://riaevangelist.github.io/node-cmd/coverage/).
+
 ## Development
 
 ```sh
@@ -305,7 +314,7 @@ npm run coverage
 npm run test:package
 ```
 
-The project uses Node's built-in test runner and coverage support. It has no runtime or development package dependencies.
+`npm run coverage` writes the local HTML report to `coverage/node/index.html`. `npm run verify` runs tests, coverage gates, the packed-package smoke test, and static-site validation together.
 
 When upgrading from v5, read [MIGRATION.md](MIGRATION.md). Release details are in [CHANGELOG.md](CHANGELOG.md), and command-execution guidance is in [SECURITY.md](SECURITY.md).
 

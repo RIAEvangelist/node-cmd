@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content="Engineer migration guide from node-cmd v5 to v6: Node runtime, exports, callback compatibility, Promises, direct executable methods, streams, cancellation, and security.">
+        <meta name="theme-color" content="#060b16"><meta property="og:type" content="website"><meta property="og:title" content="Migrate node-cmd v5 to v6"><meta property="og:description" content="A compatibility-first upgrade guide with before-and-after code."><meta property="og:url" content="https://riaevangelist.github.io/node-cmd/migration.html"><meta property="og:image" content="https://riaevangelist.github.io/node-cmd/og.png"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="Migrate node-cmd v5 to v6"><meta name="twitter:image" content="https://riaevangelist.github.io/node-cmd/og.png">
+        <link rel="canonical" href="https://riaevangelist.github.io/node-cmd/migration.html"><title>Migration guide — node-cmd v6</title><link rel="stylesheet" href="./styles.css"><script src="./script.js" defer></script>
+    </head>
+    <body data-page="migration">
+        <a class="skip-link" href="#main">Skip to content</a><div class="scroll-progress" aria-hidden="true"><span></span></div>
+        <header class="site-header" data-header><div class="header-inner"><a class="wordmark" href="./index.html" aria-label="node-cmd home"><span class="wordmark-mark" aria-hidden="true">&gt;_</span><span class="wordmark-name">node-cmd</span><span class="version-badge">v6.0.0</span></a><button class="menu-button" type="button" aria-expanded="false" aria-controls="primary-navigation" data-menu-button><span class="menu-button-label">Menu</span><span class="menu-button-icon" aria-hidden="true"><i></i><i></i></span></button><nav class="primary-navigation" id="primary-navigation" aria-label="Documentation" data-navigation><a href="./index.html">Home</a><a href="./api.html">API</a><a href="./testing.html">Testing</a><a href="./security.html">Security</a><a href="./migration.html" aria-current="page">Migration</a><a href="./changelog.html">Changes</a><a class="nav-github" href="https://github.com/RIAEvangelist/node-cmd">GitHub <span aria-hidden="true">↗</span></a></nav></div></header>
+
+        <main id="main" class="doc-main">
+            <header class="page-hero"><p class="eyebrow"><span>Upgrade</span> v5 → v6</p><h1>Migration guide</h1><p>Version 6 keeps the original callback and synchronous APIs while raising the runtime floor and adding explicit Promise, direct-executable, and streaming paths.</p><div class="page-actions"><a class="button button-primary" href="./api.html">Open the v6 API</a><a class="button button-secondary" href="./changelog.html">Release notes</a></div></header>
+
+            <article class="doc-article">
+                <section class="doc-section"><div class="section-kicker">01 / Install</div><h2>Upgrade the package and runtime together</h2><pre><code>npm install node-cmd@6</code></pre><p>node-cmd 6 requires Node.js 22.12 or newer. Upgrade production, CI, development, containers, and deployment images before changing the package version.</p><div class="callout warning"><strong>Major-version boundary.</strong> The classic call shapes remain, but the supported Node range changes from legacy Node releases to modern Node 22.12+.</div></section>
+
+                <section class="doc-section"><div class="section-kicker">02 / Imports</div><h2>Keep CommonJS or adopt native ESM</h2><div class="two-column-code"><div><h3>Existing CommonJS</h3><pre><code>const cmd = require('node-cmd');
+
+cmd.run('node --version', callback);</code></pre></div><div><h3>Native ESM</h3><pre><code>import cmd, { runPromise } from 'node-cmd';
+
+const result = await runPromise(
+    'node --version'
+);</code></pre></div></div><p>The package root is preferred. Existing <code>require('node-cmd/cmd')</code> and <code>require('node-cmd/cmd.js')</code> imports remain supported. A new <code>node-cmd/cmd.mjs</code> entry is also exported.</p></section>
+
+                <section class="doc-section"><div class="section-kicker">03 / Compatibility</div><h2>Existing callback and synchronous calls remain valid</h2><pre><code>const child = cmd.run('npm test', (error, data, stderr) =&gt; {
+    // same callback shape as v5
+});
+
+const result = cmd.runSync('node --version');
+// { data, err, stderr }</code></pre><p><code>run()</code> still returns the <code>ChildProcess</code>. <code>runSync()</code> retains the legacy keys and captures stderr instead of leaking it to the parent process by default.</p></section>
+
+                <section class="doc-section"><div class="section-kicker">04 / Options</div><h2>Remove wrappers that existed only to reach Node options</h2><div class="two-column-code"><div><h3>Before</h3><pre><code>// application-owned wrapper around
+// child_process just to set cwd/env</code></pre></div><div><h3>Version 6</h3><pre><code>cmd.run('npm test', {
+    cwd: './workspace',
+    env: process.env,
+    timeout: 30_000
+}, callback);</code></pre></div></div><p>Relevant options—including <code>cwd</code>, <code>env</code>, <code>encoding</code>, <code>timeout</code>, <code>signal</code>, <code>shell</code>, <code>maxBuffer</code>, <code>killSignal</code>, and <code>windowsHide</code>—are forwarded to the underlying Node method.</p></section>
+
+                <section class="doc-section"><div class="section-kicker">05 / Promises</div><h2>Replace manual Promise wrappers</h2><div class="two-column-code"><div><h3>Before</h3><pre><code>const output = await new Promise(
+    (resolve, reject) =&gt; cmd.run(
+        command,
+        (error, data, stderr) =&gt; {
+            if (error) reject(error);
+            else resolve({ stdout: data, stderr });
+        }
+    )
+);</code></pre></div><div><h3>Version 6</h3><pre><code>const task = cmd.runPromise(command);
+console.log(task.child.pid);
+
+const { stdout, stderr } = await task;</code></pre></div></div><p><code>runPromisified</code> is an exact alias, so code written against that proposed name continues to work. Rejections retain Node’s error metadata and collected output.</p></section>
+
+                <section class="doc-section"><div class="section-kicker">06 / Direct execution</div><h2>Move variable arguments out of shell strings</h2><div class="two-column-code"><div><h3>Shell-concatenated input</h3><pre><code>// Avoid this for variable data
+cmd.run(`tool --name ${userValue}`);</code></pre></div><div><h3>Exact argument boundary</h3><pre><code>await cmd.runFilePromise(
+    'tool',
+    ['--name', userValue]
+);</code></pre></div></div><p>Select <code>runFile</code>, <code>runFilePromise</code>, or <code>runFileSync</code> when output should be buffered. They map to Node’s <code>execFile</code> family and avoid a shell by default.</p><div class="table-wrap"><table class="reference-table"><thead><tr><th>Need</th><th>Method</th><th>Result</th></tr></thead><tbody><tr><td>Callback + direct args</td><td><code>runFile</code></td><td><code>ChildProcess</code> and callback</td></tr><tr><td>Promise + direct args</td><td><code>runFilePromise</code></td><td><code>{stdout, stderr}</code> and <code>promise.child</code></td></tr><tr><td>Sync + direct args</td><td><code>runFileSync</code></td><td><code>{data, err, stderr}</code></td></tr></tbody></table></div></section>
+
+                <section class="doc-section"><div class="section-kicker">07 / Streaming</div><h2>Use <code>runStream</code> instead of buffering long-lived output</h2><pre><code>const child = cmd.runStream(
+    'node',
+    ['server.js'],
+    { stdio: ['pipe', 'pipe', 'pipe'] }
+);
+
+child.stdout.pipe(process.stdout);
+child.stderr.pipe(process.stderr);
+child.stdin.write('ready\n');</code></pre><p><code>runStream</code> wraps <code>spawn()</code>, returns the live <code>ChildProcess</code>, and keeps direct arguments separate. It does not resolve a final stdout/stderr object. Set encoding and backpressure behavior on individual streams.</p></section>
+
+                <section class="doc-section"><div class="section-kicker">08 / Cancellation</div><h2>Replace application-specific cancellation wiring</h2><pre><code>const controller = new AbortController();
+const task = cmd.runPromise(command, {
+    signal: controller.signal,
+    timeout: 30_000
+});
+
+controller.abort();</code></pre><p>The Promise rejects when Node processes the abort. A timeout requests termination; it is not a guaranteed deadline or a process-tree supervisor. Continue using the returned child for explicit lifecycle handling when needed.</p></section>
+
+                <section class="doc-section"><div class="section-kicker">09 / Checklist</div><h2>Upgrade checklist</h2><ol class="checklist"><li>Move every supported environment to Node.js 22.12 or newer.</li><li>Install <code>node-cmd@6</code> and regenerate the application lockfile.</li><li>Run existing callback and synchronous tests unchanged first.</li><li>Remove custom option-forwarding and Promise wrappers where v6 replaces them.</li><li>Convert variable shell arguments to <code>runFile*</code> or <code>runStream</code>.</li><li>Review timeout, cancellation, <code>maxBuffer</code>, and output-consumption policies.</li><li>Exercise shell behavior on Windows, macOS, and Linux targets.</li><li>Read the <a href="./security.html">security model</a> before accepting another user’s input.</li></ol></section>
+            </article>
+
+            <nav class="next-docs" aria-label="Continue reading"><a href="./security.html"><span>Review</span><strong>Security model →</strong></a><a href="./changelog.html"><span>Next</span><strong>Version 6 changes →</strong></a></nav>
+        </main>
+        <footer class="site-footer"><div class="footer-inner"><a class="wordmark" href="./index.html"><span class="wordmark-mark" aria-hidden="true">&gt;_</span><span class="wordmark-name">node-cmd</span></a><p>A compatibility-first path from v5 to v6. <span data-year></span></p><div class="footer-links"><a href="./api.html">API</a><a href="https://github.com/RIAEvangelist/node-cmd/blob/main/MIGRATION.md">Markdown</a><a href="https://github.com/RIAEvangelist/node-cmd">GitHub</a></div></div></footer>
+    </body>
+</html>

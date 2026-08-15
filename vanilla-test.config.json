@@ -1,0 +1,25 @@
+{
+  "entry": "./test/api.test.js",
+  "reportsDirectory": "./coverage",
+  "thresholds": {
+    "statements": 100,
+    "branches": 95,
+    "functions": 100,
+    "lines": 100
+  },
+  "node": {
+    "include": [
+      "cmd.js",
+      "cmd.mjs"
+    ]
+  },
+  "chrome": {
+    "include": [
+      "cmd.mjs"
+    ],
+    "imports": {},
+    "headless": true,
+    "executablePath": null
+  },
+  "timeoutMs": 30000
+}

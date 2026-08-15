@@ -5,9 +5,13 @@ const {once} = require('node:events');
 const {spawnSync} = require('node:child_process');
 const {pathToFileURL} = require('node:url');
 const path = require('node:path');
-const test = require('node:test');
 
 const cmd = require('../cmd.js');
+const cases = [];
+
+function test(description, callback) {
+    cases.push({description, callback});
+}
 
 function shellCommand(source) {
     const payload = Buffer.from(source).toString('base64');
@@ -66,11 +70,11 @@ test('ESM provides default and named exports', async () => {
     const moduleUrl = pathToFileURL(path.resolve(__dirname, '../cmd.mjs'));
     const imported = await import(moduleUrl);
 
-    assert.equal(imported.default.run, cmd.run);
-    assert.equal(imported.run, cmd.run);
-    assert.equal(imported.runPromise, cmd.runPromise);
-    assert.equal(imported.runFile, cmd.runFile);
-    assert.equal(imported.runStream, cmd.runStream);
+    assert.equal(imported.default, cmd);
+
+    for (const name of Object.keys(cmd)) {
+        assert.equal(imported[name], cmd[name], `${name} should be the same ESM export`);
+    }
 });
 
 test('run supports callbacks, output capture, and child process access', async () => {
@@ -446,3 +450,27 @@ test('runStream is unbuffered and supports direct options', async () => {
     nullArgs.stdin.end("process.stdout.write('null args')");
     assert.equal((await fifth).stdout, 'null args');
 });
+
+async function run() {
+    const {default: VanillaTest} = await import('vanilla-test');
+    const suite = new VanillaTest();
+
+    for (const {description, callback} of cases) {
+        suite.expects(description);
+
+        try {
+            await callback();
+            suite.pass();
+        } catch (error) {
+            console.error(error?.stack || error);
+            suite.fail();
+        }
+
+        suite.done();
+    }
+
+    return suite.report();
+}
+
+module.exports = run;
+module.exports.run = run;

@@ -86,7 +86,10 @@ try {
 
     assert.equal(installedPackage.version, '6.0.0');
     assert.equal(installedPackage.dependencies, undefined);
-    assert.equal(installedPackage.devDependencies, undefined);
+    assert.deepEqual(installedPackage.devDependencies, {
+        'vanilla-test': '2.0.0'
+    });
+    assert.equal(existsSync(join(consumer, 'node_modules', 'vanilla-test')), false);
     assert.ok(existsSync(join(installed, 'cmd.js')));
     assert.ok(existsSync(join(installed, 'cmd.mjs')));
     assert.ok(existsSync(join(installed, 'README.md')));
