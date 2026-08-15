@@ -1,6 +1,9 @@
-node_modules/
-example/
-test/
-travis.yml
-.gitignore
-index.html
+/.github/
+/assets/
+/coverage/
+/example/
+/node_modules/
+/scripts/
+/site/
+/test/
+*.tgz

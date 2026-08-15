@@ -1,21 +1,49 @@
 {
   "name": "node-cmd",
-  "version": "5.0.0",
-  "description": "Simple commandline/terminal/shell interface to allow you to run cli or bash style commands as if you were in the terminal.",
-  "main": "cmd.js",
-  "directories": {
-    "example": "example"
+  "version": "6.0.0",
+  "description": "Dependency-free shell commands, direct executable calls, and process streams for modern Node.js.",
+  "type": "commonjs",
+  "main": "./cmd.js",
+  "module": "./cmd.mjs",
+  "exports": {
+    ".": {
+      "import": "./cmd.mjs",
+      "require": "./cmd.js",
+      "default": "./cmd.js"
+    },
+    "./cmd": "./cmd.js",
+    "./cmd.js": "./cmd.js",
+    "./cmd.mjs": "./cmd.mjs",
+    "./package.json": "./package.json"
   },
-  "engines" : {
-    "node" : ">=6.4.0"
+  "files": [
+    "cmd.js",
+    "cmd.mjs",
+    "CHANGELOG.md",
+    "MIGRATION.md",
+    "README.md",
+    "SECURITY.md",
+    "licence"
+  ],
+  "engines": {
+    "node": ">=22.12.0"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "node --test test/*.test.js",
+    "coverage": "node --experimental-test-coverage --test --test-coverage-lines=100 --test-coverage-functions=100 --test-coverage-branches=95 test/*.test.js",
+    "test:package": "node ./scripts/package-smoke.js",
+    "site:check": "node ./scripts/validate-site.js",
+    "verify": "npm test && npm run coverage && npm run test:package && npm run site:check"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/RIAEvangelist/node-cmd.git"
+    "url": "git+https://github.com/RIAEvangelist/node-cmd.git"
   },
+  "homepage": "https://riaevangelist.github.io/node-cmd/",
+  "bugs": {
+    "url": "https://github.com/RIAEvangelist/node-cmd/issues"
+  },
+  "funding": "https://github.com/sponsors/RIAEvangelist",
   "keywords": [
     "commandline",
     "terminal",
@@ -23,13 +51,12 @@
     "cmd",
     "cli",
     "bash",
-    "script",
+    "child-process",
+    "spawn",
+    "exec",
     "node"
   ],
   "author": "Brandon Nozaki Miller",
   "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/RIAEvangelist/node-cmd/issues"
-  },
-  "homepage": "https://github.com/RIAEvangelist/node-cmd"
+  "sideEffects": false
 }

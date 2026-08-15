@@ -1,12 +1,13 @@
-const cmd=require('../cmd.js');
+const cmd = require('../cmd.js');
 
-const processRef=cmd.run('python -i');
+const processRef = cmd.runStream('python', ['-i']);
 let data_line = '';
 
 //listen to the python terminal output
 processRef.stdout.on(
   'data',
   function(data) {
+    data = data.toString();
     data_line += data;
     if (data_line[data_line.length-1] == '\n') {
       console.log(data_line);
@@ -16,7 +17,7 @@ processRef.stdout.on(
 
 const pythonTerminalInput=`primes = [2, 3, 5, 7]
 for prime in primes:
-    print(primes)
+    print(prime)
 
 `;
 
@@ -25,3 +26,5 @@ console.log(`>>>${pythonTerminalInput}`);
 
 //send it to the open python terminal
 processRef.stdin.write(pythonTerminalInput);
+processRef.stdin.write('exit()\n');
+processRef.stdin.end();

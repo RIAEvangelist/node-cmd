@@ -1,0 +1,338 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content="Preview node-cmd v6, a dependency-free command and process-control interface for modern Node.js with shell strings, direct execution, callbacks, promises, and synchronous APIs.">
+        <meta name="theme-color" content="#060b16">
+        <meta property="og:type" content="website">
+        <meta property="og:title" content="node-cmd v6 preview — shell power, process control">
+        <meta property="og:description" content="Run shell commands or direct executables from Node.js with callbacks, promises, synchronous APIs, and the ChildProcess you already know.">
+        <meta property="og:url" content="https://riaevangelist.github.io/node-cmd/">
+        <meta property="og:image" content="https://riaevangelist.github.io/node-cmd/og.png">
+        <meta property="og:image:alt" content="node-cmd — commands, files, and streams">
+        <meta name="twitter:card" content="summary_large_image">
+        <meta name="twitter:title" content="node-cmd v6 preview — shell power, process control">
+        <meta name="twitter:description" content="A dependency-free command and process-control interface for modern Node.js.">
+        <meta name="twitter:image" content="https://riaevangelist.github.io/node-cmd/og.png">
+        <meta name="twitter:image:alt" content="node-cmd — commands, files, and streams">
+        <link rel="canonical" href="https://riaevangelist.github.io/node-cmd/">
+        <title>node-cmd v6 preview — shell power, process control</title>
+        <link rel="stylesheet" href="./styles.css">
+        <script src="./script.js" defer></script>
+    </head>
+    <body>
+        <a class="skip-link" href="#main">Skip to content</a>
+        <div class="scroll-progress" aria-hidden="true"><span></span></div>
+
+        <header class="site-header" data-header>
+            <div class="header-inner">
+                <a class="wordmark" href="#top" aria-label="node-cmd home">
+                    <span class="wordmark-mark" aria-hidden="true">&gt;_</span>
+                    <span class="wordmark-name">node-cmd</span>
+                    <span class="version-badge">v6 preview</span>
+                </a>
+
+                <button class="menu-button" type="button" aria-expanded="false" aria-controls="primary-navigation" data-menu-button>
+                    <span class="menu-button-label">Menu</span>
+                    <span class="menu-button-icon" aria-hidden="true"><i></i><i></i></span>
+                </button>
+
+                <nav class="primary-navigation" id="primary-navigation" aria-label="Primary navigation" data-navigation>
+                    <a href="#features">Features</a>
+                    <a href="#quick-start">Quick start</a>
+                    <a href="#api">API</a>
+                    <a href="#safety">Safety</a>
+                    <a class="nav-github" href="https://github.com/RIAEvangelist/node-cmd">GitHub <span aria-hidden="true">↗</span></a>
+                </nav>
+            </div>
+        </header>
+
+        <main id="main">
+            <section class="hero" id="top">
+                <div class="hero-copy">
+                    <p class="eyebrow"><span>v6 preview</span> Command execution for modern Node.js</p>
+                    <h1>Run the command. <em>Keep the process.</em></h1>
+                    <p class="hero-lede">Shell strings when you need shell syntax. Buffered direct calls when you need exact arguments. Unbuffered streams when the process keeps running. Callbacks, promises, and synchronous APIs—with zero runtime or development dependencies.</p>
+                    <div class="hero-actions">
+                        <a class="button button-primary" href="#quick-start">Start in one line <span aria-hidden="true">↓</span></a>
+                        <a class="button button-secondary" href="https://github.com/RIAEvangelist/node-cmd/blob/main/README.md">Read the docs <span aria-hidden="true">↗</span></a>
+                    </div>
+                    <ul class="hero-signals" aria-label="Compatibility highlights">
+                        <li><span aria-hidden="true">✓</span> Classic <code>run</code> / <code>runSync</code></li>
+                        <li><span aria-hidden="true">✓</span> CommonJS + ESM</li>
+                        <li><span aria-hidden="true">✓</span> Node.js 22.12+</li>
+                    </ul>
+                </div>
+
+                <div class="process-console" aria-label="Example node-cmd process session">
+                    <div class="console-chrome">
+                        <div class="console-dots" aria-hidden="true"><span></span><span></span><span></span></div>
+                        <p>process://node-cmd</p>
+                        <span class="console-state"><i></i> running</span>
+                    </div>
+                    <div class="console-body">
+                        <p class="console-comment">// shell string + process handle</p>
+                        <p><span class="token-keyword">const</span> child = cmd.<span class="token-call">run</span>(</p>
+                        <p class="console-indent"><span class="token-string">'npm test'</span>,</p>
+                        <p class="console-indent">{ cwd: <span class="token-string">'./workspace'</span> }</p>
+                        <p>);</p>
+                        <div class="process-readout">
+                            <div><span>PID</span><strong>4812</strong></div>
+                            <div><span>STDOUT</span><strong class="status-live">streaming</strong></div>
+                            <div><span>EXIT</span><strong>0</strong></div>
+                        </div>
+                        <p class="console-output"><span aria-hidden="true">›</span> 17 tests passed <i aria-hidden="true"></i></p>
+                    </div>
+                    <div class="process-ports" aria-label="Returned ChildProcess capabilities">
+                        <span>pid</span><span>stdin</span><span>stdout</span><span>stderr</span><span>kill()</span>
+                    </div>
+                </div>
+            </section>
+
+            <section class="fact-strip" aria-label="Project facts">
+                <div><strong>0</strong><span>runtime dependencies</span></div>
+                <div><strong>0</strong><span>development dependencies</span></div>
+                <div><strong>3</strong><span>execution styles</span></div>
+                <div><strong>1</strong><span>real ChildProcess</span></div>
+            </section>
+
+            <section class="section features-section" id="features">
+                <div class="section-heading reveal">
+                    <p class="eyebrow">The familiar API, expanded</p>
+                    <h2>Small surface. Full process control.</h2>
+                    <p>Version 6 keeps the calls existing applications rely on and adds the explicit execution paths modern code expects.</p>
+                </div>
+
+                <div class="feature-grid">
+                    <article class="feature-card feature-card-wide reveal">
+                        <p class="card-index">01 / COMPATIBLE</p>
+                        <h3>Your classic calls still read the same.</h3>
+                        <p>Keep using <code>run(command, callback)</code> and <code>runSync(command)</code>. Add options only when the command needs a different directory, environment, timeout, or cancellation signal.</p>
+                        <div class="signature-line"><code>run(command, options?, callback?)</code><span>→ ChildProcess</span></div>
+                    </article>
+
+                    <article class="feature-card reveal">
+                        <p class="card-index">02 / PROMISES</p>
+                        <h3>Await the result.</h3>
+                        <p><code>runPromise</code> and its compatible <code>runPromisified</code> alias resolve with separate <code>stdout</code> and <code>stderr</code> values.</p>
+                        <div class="result-shape"><span>{</span><b>stdout</b><span>,</span><b>stderr</b><span>}</span></div>
+                    </article>
+
+                    <article class="feature-card feature-card-amber reveal">
+                        <p class="card-index">03 / DIRECT</p>
+                        <h3>Skip the shell, keep the result.</h3>
+                        <p>Use buffered <code>runFile</code>, <code>runFileSync</code>, or <code>runFilePromise</code> to execute a file with an explicit argument array and capture its output.</p>
+                        <div class="argument-track" aria-hidden="true"><span>git</span><i></i><span>status</span><i></i><span>--short</span></div>
+                    </article>
+
+                    <article class="feature-card reveal">
+                        <p class="card-index">04 / CONTROL</p>
+                        <h3>The process is not hidden.</h3>
+                        <p>Process-returning calls expose Node’s <code>ChildProcess</code>. Read its PID, pipe its streams, write to stdin, listen for events, or stop it with <code>kill()</code>.</p>
+                    </article>
+
+                    <article class="feature-card reveal">
+                        <p class="card-index">05 / OPTIONS</p>
+                        <h3>Execution context is explicit.</h3>
+                        <p>Set <code>cwd</code>, extend or replace <code>env</code>, bound work with <code>timeout</code>, and cancel cooperatively with an <code>AbortSignal</code>.</p>
+                    </article>
+
+                    <article class="feature-card feature-card-full feature-card-stream reveal">
+                        <div>
+                            <p class="card-index">06 / STREAM</p>
+                            <h3>High output should not wait for a buffer.</h3>
+                            <p><code>runStream(file, args?, options?)</code> uses Node’s built-in <code>spawn</code> and returns an unbuffered <code>ChildProcess</code> for long-running, high-output, and interactive programs.</p>
+                        </div>
+                        <div class="stream-flow" aria-label="Unbuffered process streams">
+                            <span>stdin</span><i aria-hidden="true"></i><strong>process</strong><i aria-hidden="true"></i><span>stdout / stderr</span>
+                        </div>
+                    </article>
+                </div>
+            </section>
+
+            <section class="section quick-start-section" id="quick-start">
+                <div class="section-heading reveal">
+                    <p class="eyebrow">CommonJS + ESM + promises</p>
+                    <h2>Choose the calling style, not a toolchain.</h2>
+                    <p>No transpiler, bundler, or TypeScript runtime is required.</p>
+                </div>
+
+                <div class="code-workbench reveal">
+                    <div class="code-toolbar">
+                        <div class="code-tabs" role="tablist" aria-label="node-cmd quick-start examples">
+                            <button id="tab-cjs" type="button" role="tab" aria-selected="true" aria-controls="panel-cjs" tabindex="0" data-tab="cjs">CommonJS</button>
+                            <button id="tab-esm" type="button" role="tab" aria-selected="false" aria-controls="panel-esm" tabindex="-1" data-tab="esm">ESM</button>
+                            <button id="tab-promise" type="button" role="tab" aria-selected="false" aria-controls="panel-promise" tabindex="-1" data-tab="promise">Promise</button>
+                        </div>
+                        <button class="copy-button" type="button" data-copy-current aria-label="Copy the current quick-start example">Copy</button>
+                    </div>
+
+                    <div class="code-panel" id="panel-cjs" role="tabpanel" aria-labelledby="tab-cjs" data-panel="cjs">
+                        <pre><code><span class="code-muted">// CommonJS · callback remains optional</span>
+<span class="code-keyword">const</span> cmd = <span class="code-call">require</span>(<span class="code-string">'node-cmd'</span>);
+
+<span class="code-keyword">const</span> child = cmd.<span class="code-call">run</span>(
+    <span class="code-string">'git status --short'</span>,
+    { cwd: <span class="code-string">'./project'</span> },
+    (error, stdout, stderr) =&gt; {
+        <span class="code-call">console.log</span>(stdout);
+    }
+);
+
+<span class="code-call">console.log</span>(child.pid);</code></pre>
+                    </div>
+
+                    <div class="code-panel" id="panel-esm" role="tabpanel" aria-labelledby="tab-esm" data-panel="esm" hidden>
+                        <pre><code><span class="code-muted">// Native ES module · unbuffered ChildProcess</span>
+<span class="code-keyword">import</span> cmd <span class="code-keyword">from</span> <span class="code-string">'node-cmd'</span>;
+
+<span class="code-keyword">const</span> child = cmd.<span class="code-call">runStream</span>(
+    <span class="code-string">'git'</span>,
+    [<span class="code-string">'status'</span>, <span class="code-string">'--short'</span>],
+    { cwd: <span class="code-string">'./project'</span> }
+);
+
+child.stdout.<span class="code-call">pipe</span>(process.stdout);</code></pre>
+                    </div>
+
+                    <div class="code-panel" id="panel-promise" role="tabpanel" aria-labelledby="tab-promise" data-panel="promise" hidden>
+                        <pre><code><span class="code-muted">// Promise API · stdout and stderr stay separate</span>
+<span class="code-keyword">import</span> { runPromise } <span class="code-keyword">from</span> <span class="code-string">'node-cmd'</span>;
+
+<span class="code-keyword">const</span> { stdout, stderr } = <span class="code-keyword">await</span> <span class="code-call">runPromise</span>(
+    <span class="code-string">'npm test'</span>,
+    {
+        cwd: <span class="code-string">'./project'</span>,
+        timeout: <span class="code-number">30_000</span>
+    }
+);
+
+<span class="code-call">console.log</span>(stdout);</code></pre>
+                    </div>
+                </div>
+
+                <div class="install-command reveal">
+                    <div><span>Try the v6 preview</span><code>npm install github:RIAEvangelist/node-cmd#main</code></div>
+                    <button type="button" data-copy-text="npm install github:RIAEvangelist/node-cmd#main">Copy command</button>
+                </div>
+                <p class="release-note reveal">The current npm release remains v5 until version 6 is published separately.</p>
+                <p class="copy-status" role="status" aria-live="polite" data-copy-status></p>
+            </section>
+
+            <section class="section api-section" id="api">
+                <div class="section-heading reveal">
+                    <p class="eyebrow">A deliberate execution matrix</p>
+                    <h2>Shell, direct, async, or sync.</h2>
+                    <p>Pick one dimension at a time. The method name tells reviewers exactly how a command starts and how its result arrives.</p>
+                </div>
+
+                <div class="api-matrix reveal" role="region" aria-label="node-cmd API matrix" tabindex="0">
+                    <div class="api-row api-row-heading" aria-hidden="true">
+                        <span>Execution</span><span>Callback / process</span><span>Promise</span><span>Synchronous</span>
+                    </div>
+                    <div class="api-row">
+                        <strong>Shell string</strong>
+                        <code>run</code>
+                        <code>runPromise</code>
+                        <code>runSync</code>
+                    </div>
+                    <div class="api-row">
+                        <strong>Buffered file + args</strong>
+                        <code>runFile</code>
+                        <code>runFilePromise</code>
+                        <code>runFileSync</code>
+                    </div>
+                    <div class="api-row">
+                        <strong>Unbuffered file + args</strong>
+                        <code>runStream</code>
+                        <span class="api-unavailable">—</span>
+                        <span class="api-unavailable">—</span>
+                    </div>
+                </div>
+
+                <div class="api-details">
+                    <article class="api-card reveal">
+                        <div class="api-card-top"><code>run(command, options?, callback?)</code><span>classic + extended</span></div>
+                        <p>Runs a command through the platform shell. The options and callback are both optional. The returned <code>ChildProcess</code> is available immediately.</p>
+                    </article>
+                    <article class="api-card reveal">
+                        <div class="api-card-top"><code>runPromise(command, options?)</code><span>also runPromisified</span></div>
+                        <p>Resolves after the command finishes with <code>{stdout, stderr}</code>. Use the alias when preserving existing promisified call sites.</p>
+                    </article>
+                    <article class="api-card reveal">
+                        <div class="api-card-top"><code>runFile(file, args?, options?, callback?)</code><span>direct execution</span></div>
+                        <p>Runs an executable without shell parsing and buffers its output. Its Promise and sync companions make buffered direct execution available in every calling style.</p>
+                    </article>
+                    <article class="api-card reveal">
+                        <div class="api-card-top"><code>runStream(file, args?, options?)</code><span>unbuffered spawn</span></div>
+                        <p>Uses built-in <code>spawn</code> and returns the live <code>ChildProcess</code>. Use it for interactive tools, long-running services, and output that should flow immediately.</p>
+                    </article>
+                </div>
+
+                <div class="option-rack reveal" aria-label="Supported execution options">
+                    <div><code>cwd</code><span>working directory</span></div>
+                    <div><code>env</code><span>process environment</span></div>
+                    <div><code>timeout</code><span>time bound</span></div>
+                    <div><code>signal</code><span>cancellation</span></div>
+                </div>
+            </section>
+
+            <section class="section safety-section" id="safety">
+                <div class="safety-copy reveal">
+                    <p class="eyebrow">Choose the execution boundary</p>
+                    <h2>Strings speak shell. Arrays speak process.</h2>
+                    <p>A shell command is the right tool for pipes, redirects, variable expansion, and chained commands. Direct execution is the clearer boundary when a program and its arguments are already known. Choose buffered <code>runFile</code> for a final result or unbuffered <code>runStream</code> for a live process.</p>
+                    <p class="safety-warning"><strong>Important:</strong> node-cmd does not sanitize commands or reduce operating-system privileges. Never concatenate untrusted input into a shell string.</p>
+                    <a class="text-link" href="https://github.com/RIAEvangelist/node-cmd/blob/main/SECURITY.md">Read the security guidance <span aria-hidden="true">→</span></a>
+                </div>
+
+                <div class="boundary-compare reveal">
+                    <article>
+                        <div class="boundary-label"><span class="boundary-dot boundary-dot-shell"></span>Shell string</div>
+                        <code>run('git status | tee status.txt')</code>
+                        <ul>
+                            <li>Shell operators are interpreted</li>
+                            <li>Best for deliberate shell composition</li>
+                            <li>Untrusted text must not be concatenated</li>
+                        </ul>
+                    </article>
+                    <article>
+                        <div class="boundary-label"><span class="boundary-dot boundary-dot-direct"></span>Direct file + args</div>
+                        <code>runFile('git', ['status', '--short'])</code>
+                        <ul>
+                            <li>No shell operator parsing</li>
+                            <li>Program and arguments stay separate</li>
+                            <li>Preferred for structured invocation</li>
+                        </ul>
+                    </article>
+                </div>
+            </section>
+
+            <section class="docs-band reveal" aria-labelledby="docs-heading">
+                <div>
+                    <p class="eyebrow">Reference and release notes</p>
+                    <h2 id="docs-heading">Go deeper without losing the thread.</h2>
+                </div>
+                <div class="docs-grid">
+                    <a href="https://github.com/RIAEvangelist/node-cmd/blob/main/README.md"><strong>README</strong><span>Complete API and examples →</span></a>
+                    <a href="https://github.com/RIAEvangelist/node-cmd/blob/main/MIGRATION.md"><strong>Migration</strong><span>Move to version 6 →</span></a>
+                    <a href="https://github.com/RIAEvangelist/node-cmd/blob/main/CHANGELOG.md"><strong>Changelog</strong><span>See what changed →</span></a>
+                    <a href="https://github.com/RIAEvangelist/node-cmd/blob/main/SECURITY.md"><strong>Security</strong><span>Review the trust boundary →</span></a>
+                </div>
+            </section>
+        </main>
+
+        <footer class="site-footer">
+            <div class="footer-inner">
+                <a class="wordmark" href="#top"><span class="wordmark-mark" aria-hidden="true">&gt;_</span><span class="wordmark-name">node-cmd</span></a>
+                <p>Command execution without the dependency tree. MIT licensed. <span data-year></span></p>
+                <div class="footer-links">
+                    <a href="https://www.npmjs.com/package/node-cmd">npm</a>
+                    <a href="https://github.com/RIAEvangelist/node-cmd">GitHub</a>
+                    <a href="https://github.com/RIAEvangelist/node-cmd/blob/main/licence">License</a>
+                </div>
+            </div>
+        </footer>
+    </body>
+</html>

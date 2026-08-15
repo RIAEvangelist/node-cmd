@@ -1,6 +1,6 @@
-var cmd=require('../cmd.js');
+const cmd = require('../cmd.js');
 
-const syncDir=cmd.runSync('cd');
+const syncDir = cmd.runSync('cd');
 
 console.log(`
 
@@ -15,19 +15,16 @@ data:    ${syncDir.data}
 
         `);
 
-cmd.run(
-    'dir',
-    function(err,data,stderr){
+cmd.run('dir', (error, data, stderr) => {
         console.log(`
 
 cmd.run('dir',func);  
 
-err:     ${err}
+err:     ${error}
 
 stderr:  ${stderr}
 
 data:    ${data}
 
         `);
-    }
-);
+    });

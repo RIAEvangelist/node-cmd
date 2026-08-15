@@ -1,4 +1,7 @@
-var cmd=require('../cmd.js');
+const cmd = require('../cmd.js');
 
-var processRef=cmd.run('node');
-console.log(processRef.pid);
+const processRef = cmd.runStream(process.execPath, ['--version']);
+
+console.log(`child PID: ${processRef.pid}`);
+processRef.stdout.pipe(process.stdout);
+processRef.stderr.pipe(process.stderr);
