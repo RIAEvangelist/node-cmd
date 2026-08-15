@@ -206,6 +206,12 @@ test('runSync preserves its result envelope and supports options', () => {
     assert.equal(undefinedOptionValues.data, 'safe defaults');
     assert.equal(typeof undefinedOptionValues.data, 'string');
 
+    const explicitStdio = cmd.runSync(
+        shellCommand("process.stdout.write('explicit stdio')"),
+        {stdio: 'pipe'}
+    );
+    assert.equal(explicitStdio.data, 'explicit stdio');
+
     const buffered = cmd.runSync(
         shellCommand("process.stdout.write('bytes')"),
         {encoding: 'buffer'}
@@ -241,6 +247,19 @@ test('runSync returns the original validation error instead of throwing again', 
     const badOptions = cmd.runSync(shellCommand(''), 'invalid options');
     assert.equal(badOptions.data, null);
     assert.match(badOptions.err, /options/i);
+
+    const throwingOptions = {};
+    Object.defineProperty(throwingOptions, 'encoding', {
+        enumerable: true,
+        get() {
+            throw 'non-error option failure';
+        }
+    });
+    assert.deepEqual(cmd.runSync(shellCommand(''), throwingOptions), {
+        data: null,
+        err: 'non-error option failure',
+        stderr: ''
+    });
 });
 
 test('runSync keeps captured stderr out of the parent process', () => {
@@ -309,6 +328,17 @@ test('runFile supports its callback overloads', async () => {
     });
     assert.equal(optionsOnly.error, null);
     assert.equal(optionsOnly.stderr, '');
+
+    const optionsWithoutCallback = cmd.runFile(
+        process.execPath,
+        {encoding: 'utf8'}
+    );
+    const optionsWithoutCallbackResult = collect(optionsWithoutCallback);
+    optionsWithoutCallback.stdin.end("process.stdout.write('options without callback')");
+    assert.equal(
+        (await optionsWithoutCallbackResult).stdout,
+        'options without callback'
+    );
 
     const child = cmd.runFile(process.execPath, ['--version']);
     const streamed = await collect(child);

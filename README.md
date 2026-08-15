@@ -12,7 +12,7 @@
 [![license](https://img.shields.io/github/license/RIAEvangelist/node-cmd.svg)](licence)
 [![Node.js >=22.12](https://img.shields.io/badge/Node.js-%3E%3D22.12-339933?logo=nodedotjs&logoColor=white)](https://nodejs.org/)
 [![runtime dependencies](https://img.shields.io/badge/runtime_dependencies-0-2ea44f)](package.json)
-[![tests](https://img.shields.io/badge/tests-vanilla--test%202.0.0-16d9e3)](https://riaevangelist.github.io/node-cmd/testing.html)
+[![tests](https://img.shields.io/badge/tests-vanilla--test%202.1.0-16d9e3)](https://riaevangelist.github.io/node-cmd/testing.html)
 [![coverage](https://img.shields.io/badge/coverage-100%25%20statements-2ea44f)](https://riaevangelist.github.io/node-cmd/coverage/)
 
 [![Sponsor RIAEvangelist](https://img.shields.io/static/v1?label=Sponsor%20RIAEvangelist&message=%E2%9D%A4&logo=GitHub)](https://github.com/sponsors/RIAEvangelist)
@@ -291,7 +291,7 @@ Prefer `runFile*()` or `runStream()` for portable executable calls. Windows `.ba
 
 ## Testing and coverage
 
-The project uses [`vanilla-test` 2.0.0](https://github.com/RIAEvangelist/vanilla-test) for both test execution and Node coverage. It is the only direct development dependency; the published `node-cmd` package keeps zero runtime dependencies.
+The project uses [`vanilla-test` 2.1.0](https://github.com/RIAEvangelist/vanilla-test) for both test execution and Node coverage. It is the only direct development dependency; the published `node-cmd` package keeps zero runtime dependencies.
 
 The suite is JavaScript and exercises every public API across CommonJS and ES modules, callbacks and Promises, synchronous execution, direct-file argument handling, streams, stdin, cancellation, errors, encoding, and option overloads.
 
@@ -299,11 +299,11 @@ The suite is JavaScript and exercises every public API across CommonJS and ES mo
 | --- | ---: | ---: |
 | Behavioral tests | 17 / 17 passing | All passing |
 | Statements | 100% | 100% |
-| Branches | 95.23% | 95% |
+| Branches | 100% | 100% |
 | Functions | 100% | 100% |
 | Lines | 100% | 100% |
 
-Continuous integration runs the suite on Node.js 22.12 and Node.js 24 across Linux, macOS, and Windows. Coverage runs through `vanilla-test coverage node`, using native V8 execution without transforming `node-cmd` source. The generated engineer-readable HTML report is published at [node-cmd coverage](https://riaevangelist.github.io/node-cmd/coverage/).
+Continuous integration runs the suite on Node.js 22.12 and Node.js 24 across Linux, macOS, and Windows. Coverage runs through `vanilla-test coverage node`, using native V8 execution without transforming `node-cmd` source. The generated engineer-readable [HTML coverage report](https://riaevangelist.github.io/node-cmd/coverage/) and ANSI-free [test result artifact](https://riaevangelist.github.io/node-cmd/coverage/test-results.json) are published with the documentation site.
 
 ## Development
 

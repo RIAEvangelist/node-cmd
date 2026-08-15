@@ -159,9 +159,11 @@ jobs:
           name: node-cmd-node-coverage
           path: _site/coverage
 
-      - name: Verify the coverage report
+      - name: Verify coverage and test result artifacts
         shell: bash
-        run: test -f _site/coverage/index.html
+        run: |
+          test -f _site/coverage/index.html
+          test -f _site/coverage/test-results.json
 
       - name: Configure GitHub Pages
         uses: actions/configure-pages@v6

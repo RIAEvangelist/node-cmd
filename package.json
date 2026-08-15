@@ -60,6 +60,6 @@
   "license": "MIT",
   "sideEffects": false,
   "devDependencies": {
-    "vanilla-test": "2.0.0"
+    "vanilla-test": "2.1.0"
   }
 }

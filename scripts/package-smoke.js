@@ -87,7 +87,7 @@ try {
     assert.equal(installedPackage.version, '6.0.0');
     assert.equal(installedPackage.dependencies, undefined);
     assert.deepEqual(installedPackage.devDependencies, {
-        'vanilla-test': '2.0.0'
+        'vanilla-test': '2.1.0'
     });
     assert.equal(existsSync(join(consumer, 'node_modules', 'vanilla-test')), false);
     assert.ok(existsSync(join(installed, 'cmd.js')));

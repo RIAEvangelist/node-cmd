@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="description" content="How node-cmd v6 is tested with vanilla-test 2.0.0: behavior inventory, native Node coverage, thresholds, CI matrix, and packed-package verification.">
+        <meta name="description" content="How node-cmd v6 is tested with vanilla-test 2.1.0: behavior inventory, native Node coverage, thresholds, CI matrix, and packed-package verification.">
         <meta name="theme-color" content="#060b16">
         <meta property="og:type" content="website">
         <meta property="og:title" content="Testing and coverage — node-cmd v6">
@@ -25,7 +25,7 @@
 
         <main id="main" class="doc-main">
             <header class="page-hero">
-                <p class="eyebrow"><span>Evidence</span> vanilla-test 2.0.0</p>
+                <p class="eyebrow"><span>Evidence</span> vanilla-test 2.1.0</p>
                 <h1>Testing &amp; coverage</h1>
                 <p>The public API is exercised as JavaScript through the author’s own <code>vanilla-test</code> module, then measured without transforming node-cmd source.</p>
                 <div class="page-actions"><a class="button button-primary" href="./coverage/">Open the HTML coverage report</a><a class="button button-secondary" href="https://github.com/RIAEvangelist/node-cmd/actions/workflows/ci.yml">View CI runs ↗</a></div>
@@ -34,7 +34,7 @@
             <section class="metric-grid" aria-label="Current verification results">
                 <article class="metric-card"><strong>17 / 17</strong><span>behavior tests passing</span></article>
                 <article class="metric-card"><strong>100%</strong><span>statements</span></article>
-                <article class="metric-card"><strong>95.23%</strong><span>branches</span></article>
+                <article class="metric-card"><strong>100%</strong><span>branches</span></article>
                 <article class="metric-card"><strong>100%</strong><span>functions and lines</span></article>
             </section>
 
@@ -42,7 +42,7 @@
                 <section class="doc-section">
                     <div class="section-kicker">01 / Tooling</div>
                     <h2>vanilla-test owns the suite and coverage command</h2>
-                    <p><a href="https://github.com/RIAEvangelist/vanilla-test"><code>vanilla-test@2.0.0</code></a> is node-cmd’s only direct development dependency. The shipped package declares no runtime dependencies, and npm does not install the test tool for node-cmd consumers.</p>
+                    <p><a href="https://github.com/RIAEvangelist/vanilla-test"><code>vanilla-test@2.1.0</code></a> is node-cmd’s only direct development dependency. Its dependency graph contains only the author’s <code>ansi-colors-es6</code> and <code>strong-type</code> modules. The shipped package declares no runtime dependencies, and npm does not install the test tool for node-cmd consumers.</p>
                     <pre><code>{
   "scripts": {
     "test": "node ./test/node.mjs",
@@ -50,7 +50,7 @@
     "verify": "npm test &amp;&amp; npm run coverage &amp;&amp; npm run test:package &amp;&amp; npm run site:check"
   },
   "devDependencies": {
-    "vanilla-test": "2.0.0"
+    "vanilla-test": "2.1.0"
   }
 }</code></pre>
                     <p>The suite uses <code>VanillaTest</code> for case lifecycle and reporting. Node’s built-in <code>node:assert/strict</code> supplies precise deep equality, rejection, and pattern assertions; no separate assertion framework is installed.</p>
@@ -64,7 +64,7 @@
   "entry": "./test/api.test.js",
   "thresholds": {
     "statements": 100,
-    "branches": 95,
+    "branches": 100,
     "functions": 100,
     "lines": 100
   },
@@ -73,9 +73,9 @@
   }
 }</code></pre>
                     <div class="table-wrap">
-                        <table class="reference-table"><thead><tr><th>Source</th><th>Statements</th><th>Branches</th><th>Functions</th><th>Lines</th></tr></thead><tbody><tr><td>All shipped source</td><td>100%</td><td>95.23%</td><td>100%</td><td>100%</td></tr><tr><td><code>cmd.js</code></td><td>100%</td><td>95.16%</td><td>100%</td><td>100%</td></tr><tr><td><code>cmd.mjs</code></td><td>100%</td><td>100%</td><td>100%</td><td>100%</td></tr></tbody></table>
+                        <table class="reference-table"><thead><tr><th>Source</th><th>Statements</th><th>Branches</th><th>Functions</th><th>Lines</th></tr></thead><tbody><tr><td>All shipped source</td><td>100%</td><td>100%</td><td>100%</td><td>100%</td></tr><tr><td><code>cmd.js</code></td><td>100%</td><td>100%</td><td>100%</td><td>100%</td></tr><tr><td><code>cmd.mjs</code></td><td>100%</td><td>100%</td><td>100%</td><td>100%</td></tr></tbody></table>
                     </div>
-                    <div class="callout"><strong>Report paths.</strong> Local runs write <code>coverage/node/index.html</code>, <code>lcov.info</code>, and <code>coverage-summary.json</code>. CI publishes the same HTML tree at <a href="./coverage/">this site’s coverage report</a> and retains it as a workflow artifact.</div>
+                    <div class="callout"><strong>Report paths.</strong> Local runs write <code>coverage/node/index.html</code>, <code>lcov.info</code>, <code>coverage-summary.json</code>, and a normalized ANSI-free <code>test-results.json</code>. CI publishes the same HTML tree at <a href="./coverage/">this site’s coverage report</a>, exposes the <a href="https://riaevangelist.github.io/node-cmd/coverage/test-results.json">machine-readable test results</a>, and retains the complete directory as a workflow artifact.</div>
                 </section>
 
                 <section class="doc-section">

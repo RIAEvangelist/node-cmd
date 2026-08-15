@@ -2,6 +2,16 @@
 
 All notable changes to this project are documented here.
 
+## [Unreleased]
+
+### Changed
+
+- Updated tests and native Node coverage from `vanilla-test` 2.0.0 to 2.1.0.
+- Removed the unused Chrome coverage configuration now that `vanilla-test` supports target-specific Node-only projects.
+- Removed the former third-party coverage and browser packages from the development dependency graph; the test tool now depends only on the author's `ansi-colors-es6` and `strong-type` modules.
+- Published the normalized, ANSI-free `test-results.json` artifact alongside the engineer-readable HTML coverage report.
+- Added focused overload, explicit-stdio, and non-Error fallback checks, bringing all 2.1 native V8 range metrics and enforced thresholds to 100%.
+
 ## [6.0.0] - 2026-08-14
 
 ### Added

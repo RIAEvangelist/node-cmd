@@ -3,7 +3,7 @@
   "reportsDirectory": "./coverage",
   "thresholds": {
     "statements": 100,
-    "branches": 95,
+    "branches": 100,
     "functions": 100,
     "lines": 100
   },
@@ -12,14 +12,6 @@
       "cmd.js",
       "cmd.mjs"
     ]
-  },
-  "chrome": {
-    "include": [
-      "cmd.mjs"
-    ],
-    "imports": {},
-    "headless": true,
-    "executablePath": null
   },
   "timeoutMs": 30000
 }

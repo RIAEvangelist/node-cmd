@@ -103,10 +103,13 @@ assert.match(api, /AbortSignal/);
 assert.match(api, /process-tree boundary/i);
 
 const testing = pages.get('testing.html');
-assert.match(testing, /vanilla-test(?:@|<\/code>\s*)2\.0\.0/i);
+assert.match(testing, /vanilla-test(?:@|<\/code>\s*)2\.1\.0/i);
 assert.match(testing, /17\s*\/\s*17/);
-assert.match(testing, /95\.23%/);
+assert.match(testing, /<strong>100%<\/strong><span>branches<\/span>/);
+assert.doesNotMatch(testing, /95\.23%/);
+assert.match(testing, /"branches"\s*:\s*100/);
 assert.match(testing, /coverage\/node\/index\.html/);
+assert.match(testing, /test-results\.json/);
 assert.match(testing, /Windows/);
 assert.match(testing, /macOS/);
 assert.match(testing, /Ubuntu/);
