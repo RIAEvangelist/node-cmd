@@ -30,6 +30,10 @@
   },
   "scripts": {
     "test": "node ./test/node.mjs",
+    "test:unit": "node ./test/node.mjs unit",
+    "test:functional": "node ./test/node.mjs functional",
+    "test:integration": "node ./test/node.mjs integration",
+    "test:regression": "node ./test/node.mjs regression",
     "coverage": "vanilla-test coverage node",
     "test:package": "node ./scripts/package-smoke.js",
     "site:check": "node ./scripts/validate-site.js",
