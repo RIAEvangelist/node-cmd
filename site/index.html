@@ -39,6 +39,7 @@
                     <a href="./index.html" aria-current="page">Home</a>
                     <a href="./api.html">API</a>
                     <a href="./testing.html">Testing</a>
+                    <a href="./benchmarks.html">Benchmarks</a>
                     <a href="./security.html">Security</a>
                     <a href="./migration.html">Migration</a>
                     <a href="./changelog.html">Changes</a>
@@ -94,6 +95,20 @@
                 <div><strong>9</strong><span>public methods</span></div>
                 <div><strong>48/48</strong><span>focused tests passing</span></div>
                 <div><strong>100%</strong><span>statements covered</span></div>
+            </section>
+
+            <section class="why-band reveal" aria-labelledby="why-heading">
+                <div>
+                    <p class="eyebrow">Why node-cmd?</p>
+                    <h2 id="why-heading">One small API for common process shapes.</h2>
+                    <p>Node already provides <code>node:child_process</code>. node-cmd makes its common execution paths consistent while keeping the important boundary—shell string, exact arguments, or live stream—obvious at the call site.</p>
+                    <a class="text-link" href="./benchmarks.html">See the measured wrapper cost <span aria-hidden="true">→</span></a>
+                </div>
+                <ul class="why-list">
+                    <li><code>run*</code> for intentional shell syntax; <code>runFile*</code> and <code>runStream()</code> for separate arguments by default.</li>
+                    <li>Callback, Promise, synchronous, buffered, and streaming control without a production dependency tree.</li>
+                    <li>Classic calls stay valid, while CommonJS and ESM load the same implementation on Node.js 22.12+.</li>
+                </ul>
             </section>
 
             <section class="section">
@@ -192,6 +207,7 @@
                 <div class="docs-grid">
                     <a href="./api.html"><strong>API reference</strong><span>Signatures, options, returns, errors →</span></a>
                     <a href="./testing.html"><strong>Testing &amp; coverage</strong><span>vanilla-test, gates, reports, CI →</span></a>
+                    <a href="./benchmarks.html"><strong>Benchmarks</strong><span>Charts, methodology, raw samples →</span></a>
                     <a href="./security.html"><strong>Security model</strong><span>Shell boundary and process risks →</span></a>
                     <a href="./migration.html"><strong>Migration</strong><span>Move from v5 to v6 →</span></a>
                     <a href="./changelog.html"><strong>Changelog</strong><span>Complete v6 release notes →</span></a>

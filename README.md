@@ -4,7 +4,7 @@
 
 [Visit the node-cmd GitHub.io site](https://riaevangelist.github.io/node-cmd/)
 
-[API reference](https://riaevangelist.github.io/node-cmd/api.html) · [Testing & coverage](https://riaevangelist.github.io/node-cmd/testing.html) · [Security](https://riaevangelist.github.io/node-cmd/security.html) · [Migration](https://riaevangelist.github.io/node-cmd/migration.html) · [Changelog](https://riaevangelist.github.io/node-cmd/changelog.html)
+[API reference](https://riaevangelist.github.io/node-cmd/api.html) · [Testing & coverage](https://riaevangelist.github.io/node-cmd/testing.html) · [Benchmarks](https://riaevangelist.github.io/node-cmd/benchmarks.html) · [Security](https://riaevangelist.github.io/node-cmd/security.html) · [Migration](https://riaevangelist.github.io/node-cmd/migration.html) · [Changelog](https://riaevangelist.github.io/node-cmd/changelog.html)
 
 [![CI](https://github.com/RIAEvangelist/node-cmd/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/RIAEvangelist/node-cmd/actions/workflows/ci.yml?query=branch%3Amain)
 [![npm version](https://img.shields.io/npm/v/node-cmd.svg)](https://www.npmjs.com/package/node-cmd)
@@ -20,6 +20,14 @@
 **Command-line power for JavaScript.** Run shell commands, launch executables, stream output, write to stdin, and control child processes from Node.js. `node-cmd` has zero runtime dependencies and supports both CommonJS and native ES modules.
 
 The original `run()` and `runSync()` APIs remain available. Version 6 adds forwarded execution options, Promise APIs, direct executable APIs that avoid a shell by default, an unbuffered `spawn` wrapper, and explicit cancellation support.
+
+## Why node-cmd?
+
+Node already provides `node:child_process`; node-cmd turns its common execution paths into one small, consistent API. Use shell syntax when you need it, keep executable arguments separate when you do not, and choose callback, Promise, synchronous, buffered, or streaming control without a production dependency tree.
+
+- `run*` handles intentional shell commands; `runFile*` and `runStream()` are direct by default.
+- Existing `run()` and `runSync()` calls remain valid while modern options, cancellation, and immediate `ChildProcess` access stay available.
+- CommonJS and ESM load the same implementation on Node.js 22.12+, so runtime behavior is not duplicated between module systems.
 
 ## Install
 
@@ -74,6 +82,18 @@ console.log(stdout);
 ```
 
 `runFile*()` keeps the executable and its arguments separate and does not start a shell by default. Prefer it when any argument may contain untrusted or variable data.
+
+## Benchmarks
+
+node-cmd delegates to the matching Node child-process primitive. A dependency-free harness measures JavaScript dispatch separately from real process completion so the wrapper’s cost is visible instead of being lost inside operating-system launch time.
+
+[![node-cmd JavaScript dispatch benchmark against node:child_process](https://raw.githubusercontent.com/RIAEvangelist/node-cmd/main/assets/node-cmd-dispatch-benchmark.svg)](https://riaevangelist.github.io/node-cmd/benchmarks.html)
+
+[![node-cmd empty-process completion benchmark against node:child_process](https://raw.githubusercontent.com/RIAEvangelist/node-cmd/main/assets/node-cmd-process-benchmark.svg)](https://riaevangelist.github.io/node-cmd/benchmarks.html)
+
+On the Node.js 22.12.0 reference run, common callback, Promise, direct-file, and streaming paths added median dispatch costs of 0.21–0.22 ns; synchronous result normalization added 7.56–10.40 ns. Empty-process completion took about 39–55 ms. All seven paired completion-time comparisons included zero in their 95% confidence intervals, so this run did not resolve a completion-time difference.
+
+The largest measured dispatch delta was roughly 3.8 million times smaller than its matching child-process duration. Confidence intervals that include zero do not prove mathematical equivalence, and absolute launch time varies by machine and operating system. Read the [methodology and exact tables](https://riaevangelist.github.io/node-cmd/benchmarks.html), download the [raw samples](https://riaevangelist.github.io/node-cmd/benchmark-results.json), or inspect the [benchmark source](benchmark/run.js). These results support negligible wrapper cost; they do not claim that node-cmd makes Node or the operating system launch a process faster.
 
 ## API
 
@@ -324,9 +344,11 @@ npm run test:integration
 npm run test:regression
 npm run coverage
 npm run test:package
+npm run benchmark
+npm run benchmark:chart
 ```
 
-The four `test:*` commands run one set independently; `npm test` and `npm run coverage` always run all 48 cases. Coverage writes the local HTML report to `coverage/node/index.html`. `npm run verify` runs the full suite, coverage gates, packed-package smoke test, and static-site validation together.
+The four `test:*` commands run one set independently; `npm test` and `npm run coverage` always run all 48 cases. Coverage writes the local HTML report to `coverage/node/index.html`. `npm run benchmark` prints a local comparison; pass `--output <file>` to retain its raw samples. `npm run benchmark:chart` regenerates the committed README charts from the reference JSON. `npm run verify` runs the full suite, coverage gates, packed-package smoke test, and static-site validation together.
 
 When upgrading from v5, read [MIGRATION.md](MIGRATION.md). Release details are in [CHANGELOG.md](CHANGELOG.md), and command-execution guidance is in [SECURITY.md](SECURITY.md).
 

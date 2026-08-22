@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="902" viewBox="0 0 1200 902" role="img" aria-labelledby="title description">
+<title id="title">node-cmd versus direct Node process-launch latency</title>
+<desc id="description">Seven paired benchmark comparisons show node-cmd process completion latency tracking direct node:child_process latency within ordinary host variation. Bars show medians and whiskers show interquartile ranges.</desc>
+<rect width="1200" height="902" rx="28" fill="#060b16"/>
+<text x="56" y="70" fill="#45e8ff" font-family="Consolas, monospace" font-size="17" font-weight="700" letter-spacing="2">NODE-CMD / END-TO-END PROCESS BENCHMARK</text>
+<text x="56" y="120" fill="#f1f7ff" font-family="Segoe UI, sans-serif" font-size="38" font-weight="800">The process is the work.</text>
+<text x="56" y="154" fill="#9baabd" font-family="Segoe UI, sans-serif" font-size="19">Empty Node child · median completion latency · IQR whiskers · lower is better</text>
+<line x1="312" y1="170" x2="312" y2="788" stroke="#18263a" stroke-width="1"/>
+<text x="312" y="158" text-anchor="middle" fill="#9baabd" font-family="Consolas, monospace" font-size="13">0 ms</text>
+<line x1="506.5" y1="170" x2="506.5" y2="788" stroke="#18263a" stroke-width="1"/>
+<text x="506.5" y="158" text-anchor="middle" fill="#9baabd" font-family="Consolas, monospace" font-size="13">16 ms</text>
+<line x1="701" y1="170" x2="701" y2="788" stroke="#18263a" stroke-width="1"/>
+<text x="701" y="158" text-anchor="middle" fill="#9baabd" font-family="Consolas, monospace" font-size="13">33 ms</text>
+<line x1="895.5" y1="170" x2="895.5" y2="788" stroke="#18263a" stroke-width="1"/>
+<text x="895.5" y="158" text-anchor="middle" fill="#9baabd" font-family="Consolas, monospace" font-size="13">49 ms</text>
+<line x1="1090" y1="170" x2="1090" y2="788" stroke="#18263a" stroke-width="1"/>
+<text x="1090" y="158" text-anchor="middle" fill="#9baabd" font-family="Consolas, monospace" font-size="13">65 ms</text>
+<text x="56" y="217" fill="#f1f7ff" font-family="Segoe UI, sans-serif" font-size="18" font-weight="700">run · callback</text>
+<text x="56" y="242" fill="#9baabd" font-family="Consolas, monospace" font-size="12">exec → run</text>
+<rect x="312" y="203" width="632.9907078798944" height="18" rx="9" fill="#65758c"/>
+<line x1="927.4712818020723" y1="212" x2="967.0928721143132" y2="212" stroke="#f1f7ff" stroke-width="2"/>
+<line x1="927.4712818020723" y1="207" x2="927.4712818020723" y2="217" stroke="#f1f7ff" stroke-width="2"/>
+<line x1="967.0928721143132" y1="207" x2="967.0928721143132" y2="217" stroke="#f1f7ff" stroke-width="2"/>
+<rect x="312" y="233" width="630.8306151550404" height="18" rx="9" fill="#45e8ff"/>
+<line x1="927.8054397926575" y1="242" x2="965.5533585148314" y2="242" stroke="#f1f7ff" stroke-width="2"/>
+<line x1="927.8054397926575" y1="237" x2="927.8054397926575" y2="247" stroke="#f1f7ff" stroke-width="2"/>
+<line x1="965.5533585148314" y1="237" x2="965.5533585148314" y2="247" stroke="#f1f7ff" stroke-width="2"/>
+<text x="954.9907078798944" y="217" fill="#9baabd" font-family="Consolas, monospace" font-size="13">53.04</text>
+<text x="952.8306151550404" y="247" fill="#9af4ff" font-family="Consolas, monospace" font-size="13">52.86</text>
+<text x="1148" y="256" text-anchor="end" fill="#ffc35c" font-family="Consolas, monospace" font-size="11">-0.18 ms Δ · CI -0.72…0.23</text>
+<text x="56" y="301" fill="#f1f7ff" font-family="Segoe UI, sans-serif" font-size="18" font-weight="700">runPromise</text>
+<text x="56" y="326" fill="#9baabd" font-family="Consolas, monospace" font-size="12">promisify(exec) → runPromise</text>
+<rect x="312" y="287" width="641.0104996539384" height="18" rx="9" fill="#65758c"/>
+<line x1="934.214112683523" y1="296" x2="978.3587700826129" y2="296" stroke="#f1f7ff" stroke-width="2"/>
+<line x1="934.214112683523" y1="291" x2="934.214112683523" y2="301" stroke="#f1f7ff" stroke-width="2"/>
+<line x1="978.3587700826129" y1="291" x2="978.3587700826129" y2="301" stroke="#f1f7ff" stroke-width="2"/>
+<rect x="312" y="317" width="641.9055657001486" height="18" rx="9" fill="#45e8ff"/>
+<line x1="932.6865332979908" y1="326" x2="979.7789415425998" y2="326" stroke="#f1f7ff" stroke-width="2"/>
+<line x1="932.6865332979908" y1="321" x2="932.6865332979908" y2="331" stroke="#f1f7ff" stroke-width="2"/>
+<line x1="979.7789415425998" y1="321" x2="979.7789415425998" y2="331" stroke="#f1f7ff" stroke-width="2"/>
+<text x="963.0104996539384" y="301" fill="#9baabd" font-family="Consolas, monospace" font-size="13">53.71</text>
+<text x="963.9055657001486" y="331" fill="#9af4ff" font-family="Consolas, monospace" font-size="13">53.79</text>
+<text x="1148" y="340" text-anchor="end" fill="#ffc35c" font-family="Consolas, monospace" font-size="11">-0.39 ms Δ · CI -0.98…0.60</text>
+<text x="56" y="385" fill="#f1f7ff" font-family="Segoe UI, sans-serif" font-size="18" font-weight="700">runSync</text>
+<text x="56" y="410" fill="#9baabd" font-family="Consolas, monospace" font-size="12">execSync → runSync</text>
+<rect x="312" y="371" width="650.3549891763734" height="18" rx="9" fill="#65758c"/>
+<line x1="934.775020739148" y1="380" x2="996.7016569229484" y2="380" stroke="#f1f7ff" stroke-width="2"/>
+<line x1="934.775020739148" y1="375" x2="934.775020739148" y2="385" stroke="#f1f7ff" stroke-width="2"/>
+<line x1="996.7016569229484" y1="375" x2="996.7016569229484" y2="385" stroke="#f1f7ff" stroke-width="2"/>
+<rect x="312" y="401" width="651.8109632782088" height="18" rx="9" fill="#45e8ff"/>
+<line x1="937.2692714545873" y1="410" x2="1006.642857142857" y2="410" stroke="#f1f7ff" stroke-width="2"/>
+<line x1="937.2692714545873" y1="405" x2="937.2692714545873" y2="415" stroke="#f1f7ff" stroke-width="2"/>
+<line x1="1006.642857142857" y1="405" x2="1006.642857142857" y2="415" stroke="#f1f7ff" stroke-width="2"/>
+<text x="972.3549891763734" y="385" fill="#9baabd" font-family="Consolas, monospace" font-size="13">54.49</text>
+<text x="973.8109632782088" y="415" fill="#9af4ff" font-family="Consolas, monospace" font-size="13">54.62</text>
+<text x="1148" y="424" text-anchor="end" fill="#ffc35c" font-family="Consolas, monospace" font-size="11">-0.10 ms Δ · CI -0.85…1.54</text>
+<text x="56" y="469" fill="#f1f7ff" font-family="Segoe UI, sans-serif" font-size="18" font-weight="700">runFile · callback</text>
+<text x="56" y="494" fill="#9baabd" font-family="Consolas, monospace" font-size="12">execFile → runFile</text>
+<rect x="312" y="455" width="506.63125058290495" height="18" rx="9" fill="#65758c"/>
+<line x1="790.3352293087114" y1="464" x2="846.8676007873512" y2="464" stroke="#f1f7ff" stroke-width="2"/>
+<line x1="790.3352293087114" y1="459" x2="790.3352293087114" y2="469" stroke="#f1f7ff" stroke-width="2"/>
+<line x1="846.8676007873512" y1="459" x2="846.8676007873512" y2="469" stroke="#f1f7ff" stroke-width="2"/>
+<rect x="312" y="485" width="500.4254593291805" height="18" rx="9" fill="#45e8ff"/>
+<line x1="783.4014510040691" y1="494" x2="845.9009294574441" y2="494" stroke="#f1f7ff" stroke-width="2"/>
+<line x1="783.4014510040691" y1="489" x2="783.4014510040691" y2="499" stroke="#f1f7ff" stroke-width="2"/>
+<line x1="845.9009294574441" y1="489" x2="845.9009294574441" y2="499" stroke="#f1f7ff" stroke-width="2"/>
+<text x="828.631250582905" y="469" fill="#9baabd" font-family="Consolas, monospace" font-size="13">42.45</text>
+<text x="822.4254593291805" y="499" fill="#9af4ff" font-family="Consolas, monospace" font-size="13">41.93</text>
+<text x="1148" y="508" text-anchor="end" fill="#ffc35c" font-family="Consolas, monospace" font-size="11">-0.32 ms Δ · CI -1.15…0.15</text>
+<text x="56" y="553" fill="#f1f7ff" font-family="Segoe UI, sans-serif" font-size="18" font-weight="700">runFilePromise</text>
+<text x="56" y="578" fill="#9baabd" font-family="Consolas, monospace" font-size="12">promisify(execFile) → runFilePromise</text>
+<rect x="312" y="539" width="482.05870406094596" height="18" rx="9" fill="#65758c"/>
+<line x1="775.8470935740546" y1="548" x2="815.9341182303247" y2="548" stroke="#f1f7ff" stroke-width="2"/>
+<line x1="775.8470935740546" y1="543" x2="775.8470935740546" y2="553" stroke="#f1f7ff" stroke-width="2"/>
+<line x1="815.9341182303247" y1="543" x2="815.9341182303247" y2="553" stroke="#f1f7ff" stroke-width="2"/>
+<rect x="312" y="569" width="479.03934793173016" height="18" rx="9" fill="#45e8ff"/>
+<line x1="773.4005797144132" y1="578" x2="817.2826844066149" y2="578" stroke="#f1f7ff" stroke-width="2"/>
+<line x1="773.4005797144132" y1="573" x2="773.4005797144132" y2="583" stroke="#f1f7ff" stroke-width="2"/>
+<line x1="817.2826844066149" y1="573" x2="817.2826844066149" y2="583" stroke="#f1f7ff" stroke-width="2"/>
+<text x="804.058704060946" y="553" fill="#9baabd" font-family="Consolas, monospace" font-size="13">40.39</text>
+<text x="801.0393479317302" y="583" fill="#9af4ff" font-family="Consolas, monospace" font-size="13">40.14</text>
+<text x="1148" y="592" text-anchor="end" fill="#ffc35c" font-family="Consolas, monospace" font-size="11">-0.17 ms Δ · CI -1.14…0.46</text>
+<text x="56" y="637" fill="#f1f7ff" font-family="Segoe UI, sans-serif" font-size="18" font-weight="700">runFileSync</text>
+<text x="56" y="662" fill="#9baabd" font-family="Consolas, monospace" font-size="12">execFileSync → runFileSync</text>
+<rect x="312" y="623" width="471.49692471566505" height="18" rx="9" fill="#65758c"/>
+<line x1="772.8038690169398" y1="632" x2="801.2072982166785" y2="632" stroke="#f1f7ff" stroke-width="2"/>
+<line x1="772.8038690169398" y1="627" x2="772.8038690169398" y2="637" stroke="#f1f7ff" stroke-width="2"/>
+<line x1="801.2072982166785" y1="627" x2="801.2072982166785" y2="637" stroke="#f1f7ff" stroke-width="2"/>
+<rect x="312" y="653" width="471.2224377948271" height="18" rx="9" fill="#45e8ff"/>
+<line x1="772.6129215937482" y1="662" x2="797.3286786831009" y2="662" stroke="#f1f7ff" stroke-width="2"/>
+<line x1="772.6129215937482" y1="657" x2="772.6129215937482" y2="667" stroke="#f1f7ff" stroke-width="2"/>
+<line x1="797.3286786831009" y1="657" x2="797.3286786831009" y2="667" stroke="#f1f7ff" stroke-width="2"/>
+<text x="793.496924715665" y="637" fill="#9baabd" font-family="Consolas, monospace" font-size="13">39.51</text>
+<text x="793.2224377948271" y="667" fill="#9af4ff" font-family="Consolas, monospace" font-size="13">39.48</text>
+<text x="1148" y="676" text-anchor="end" fill="#ffc35c" font-family="Consolas, monospace" font-size="11">-0.15 ms Δ · CI -0.79…0.19</text>
+<text x="56" y="721" fill="#f1f7ff" font-family="Segoe UI, sans-serif" font-size="18" font-weight="700">runStream</text>
+<text x="56" y="746" fill="#9baabd" font-family="Consolas, monospace" font-size="12">spawn → runStream</text>
+<rect x="312" y="707" width="466.87838391722005" height="18" rx="9" fill="#65758c"/>
+<line x1="767.7676307302634" y1="716" x2="789.5595054019957" y2="716" stroke="#f1f7ff" stroke-width="2"/>
+<line x1="767.7676307302634" y1="711" x2="767.7676307302634" y2="721" stroke="#f1f7ff" stroke-width="2"/>
+<line x1="789.5595054019957" y1="711" x2="789.5595054019957" y2="721" stroke="#f1f7ff" stroke-width="2"/>
+<rect x="312" y="737" width="464.07384363909455" height="18" rx="9" fill="#45e8ff"/>
+<line x1="765.2017747311272" y1="746" x2="792.1134271871823" y2="746" stroke="#f1f7ff" stroke-width="2"/>
+<line x1="765.2017747311272" y1="741" x2="765.2017747311272" y2="751" stroke="#f1f7ff" stroke-width="2"/>
+<line x1="792.1134271871823" y1="741" x2="792.1134271871823" y2="751" stroke="#f1f7ff" stroke-width="2"/>
+<text x="788.87838391722" y="721" fill="#9baabd" font-family="Consolas, monospace" font-size="13">39.12</text>
+<text x="786.0738436390945" y="751" fill="#9af4ff" font-family="Consolas, monospace" font-size="13">38.89</text>
+<text x="1148" y="760" text-anchor="end" fill="#ffc35c" font-family="Consolas, monospace" font-size="11">-0.03 ms Δ · CI -0.87…0.22</text>
+<rect x="56" y="797" width="16" height="16" rx="4" fill="#65758c"/>
+<text x="82" y="811" fill="#9baabd" font-family="Segoe UI, sans-serif" font-size="14">Node direct</text>
+<rect x="190" y="797" width="16" height="16" rx="4" fill="#45e8ff"/>
+<text x="216" y="811" fill="#9baabd" font-family="Segoe UI, sans-serif" font-size="14">node-cmd</text>
+<text x="56" y="853" fill="#9baabd" font-family="Consolas, monospace" font-size="13">100 measured launches each · 20 warmups · Node v22.12.0 · win32 x64 · 2026-08-22</text>
+<text x="56" y="880" fill="#9baabd" font-family="Segoe UI, sans-serif" font-size="14">Paired deltas include wrapper cost and host variance; inspect confidence intervals and raw samples.</text>
+</svg>

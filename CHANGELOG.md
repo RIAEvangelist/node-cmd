@@ -4,6 +4,12 @@ All notable changes to this project are documented here.
 
 ## [Unreleased]
 
+### Added
+
+- Added a dependency-free benchmark harness that compares all seven execution paths with their matching `node:child_process` primitives, retains raw paired samples, and measures JavaScript dispatch separately from process completion.
+- Published reproducible Node.js 22.12.0 benchmark charts and raw results in the README and a dedicated engineer-facing site page.
+- Added concise “Why node-cmd?” guidance to the README and site overview; shipped runtime code and the package version remain unchanged.
+
 ### Changed
 
 - Updated tests and native Node coverage from `vanilla-test` 2.0.0 to 2.1.0.

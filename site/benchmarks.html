@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content="Reproducible node-cmd benchmarks against Node's child_process APIs: JavaScript dispatch cost, end-to-end process latency, raw samples, and methodology.">
+        <meta name="theme-color" content="#060b16">
+        <meta property="og:type" content="website">
+        <meta property="og:title" content="Benchmarks — node-cmd v6">
+        <meta property="og:description" content="Measured wrapper cost in nanoseconds, empty-process completion in milliseconds, and every raw sample needed to inspect the result.">
+        <meta property="og:url" content="https://riaevangelist.github.io/node-cmd/benchmarks.html">
+        <meta property="og:image" content="https://riaevangelist.github.io/node-cmd/og.png">
+        <meta name="twitter:card" content="summary_large_image">
+        <meta name="twitter:title" content="Benchmarks — node-cmd v6">
+        <meta name="twitter:image" content="https://riaevangelist.github.io/node-cmd/og.png">
+        <link rel="canonical" href="https://riaevangelist.github.io/node-cmd/benchmarks.html">
+        <title>Benchmarks — node-cmd v6</title>
+        <link rel="stylesheet" href="./styles.css">
+        <script src="./script.js" defer></script>
+    </head>
+    <body data-page="benchmarks">
+        <a class="skip-link" href="#main">Skip to content</a>
+        <div class="scroll-progress" aria-hidden="true"><span></span></div>
+        <header class="site-header" data-header><div class="header-inner"><a class="wordmark" href="./index.html" aria-label="node-cmd home"><span class="wordmark-mark" aria-hidden="true">&gt;_</span><span class="wordmark-name">node-cmd</span><span class="version-badge">v6.0.0</span></a><button class="menu-button" type="button" aria-expanded="false" aria-controls="primary-navigation" data-menu-button><span class="menu-button-label">Menu</span><span class="menu-button-icon" aria-hidden="true"><i></i><i></i></span></button><nav class="primary-navigation" id="primary-navigation" aria-label="Documentation" data-navigation><a href="./index.html">Home</a><a href="./api.html">API</a><a href="./testing.html">Testing</a><a href="./benchmarks.html" aria-current="page">Benchmarks</a><a href="./security.html">Security</a><a href="./migration.html">Migration</a><a href="./changelog.html">Changes</a><a class="nav-github" href="https://github.com/RIAEvangelist/node-cmd">GitHub <span aria-hidden="true">↗</span></a></nav></div></header>
+
+        <main id="main" class="doc-main">
+            <header class="page-hero">
+                <p class="eyebrow"><span>Measured</span> Node.js 22.12.0</p>
+                <h1>Benchmarks</h1>
+                <p>node-cmd delegates to Node’s own child-process primitives. These measurements isolate the JavaScript wrapper and then time real child completion, so convenience never hides its cost.</p>
+                <div class="page-actions"><a class="button button-primary" href="./benchmark-results.json" download="node-cmd-benchmark-results.json">Download every raw sample</a><a class="button button-secondary" href="https://github.com/RIAEvangelist/node-cmd/tree/main/benchmark">Inspect the benchmark source ↗</a></div>
+            </header>
+
+            <section class="metric-grid" aria-label="Reference benchmark results">
+                <article class="metric-card"><strong>10.40 ns</strong><span>largest median dispatch delta</span></article>
+                <article class="metric-card"><strong>39–55 ms</strong><span>empty process median</span></article>
+                <article class="metric-card"><strong>≈ 3.8M×</strong><span>process time versus max wrapper delta</span></article>
+                <article class="metric-card"><strong>0</strong><span>runtime dependencies</span></article>
+            </section>
+
+            <article class="doc-article">
+                <section class="doc-section benchmark-conclusion">
+                    <div class="section-kicker">01 / Result</div>
+                    <h2>The wrapper stays beneath the work it controls</h2>
+                    <p>Common callback, Promise, direct-file, and streaming paths added medians of 0.21–0.22 ns over the matching <code>node:child_process</code> call. The two synchronous result envelopes added 7.56 ns and 10.40 ns. Even the larger value is about 3.8 million times smaller than its matching empty-process completion time.</p>
+                    <div class="callout"><strong>What this proves.</strong> node-cmd’s measured JavaScript dispatch cost is negligible beside process creation on this reference system. It does not claim to make Node or the operating system launch processes faster.</div>
+                </section>
+
+                <section class="doc-section">
+                    <div class="section-kicker">02 / JavaScript dispatch</div>
+                    <h2>Nanoseconds before a process exists</h2>
+                    <p>The child-process functions were replaced temporarily with counter stubs in an isolated measurement setup. This removes operating-system launch noise and exposes only argument normalization, result-envelope construction, and function dispatch. Bars show median nanoseconds per call; lower is better.</p>
+                    <figure class="benchmark-chart" aria-labelledby="dispatch-chart-title">
+                        <figcaption id="dispatch-chart-title"><strong>Median dispatch cost</strong><span>0–15 ns per call</span></figcaption>
+                        <div class="benchmark-legend"><span><i class="legend-direct"></i>node:child_process</span><span><i class="legend-wrapper"></i>node-cmd</span></div>
+                        <div class="benchmark-row"><code>run</code><div class="benchmark-bars"><div class="benchmark-measure"><span class="benchmark-track"><i class="benchmark-bar direct" style="--bar-width:13.9%"></i></span><span>2.081 ns</span></div><div class="benchmark-measure"><span class="benchmark-track"><i class="benchmark-bar wrapper" style="--bar-width:15.2%"></i></span><span>2.286 ns</span></div></div></div>
+                        <div class="benchmark-row"><code>runPromise</code><div class="benchmark-bars"><div class="benchmark-measure"><span class="benchmark-track"><i class="benchmark-bar direct" style="--bar-width:13.9%"></i></span><span>2.091 ns</span></div><div class="benchmark-measure"><span class="benchmark-track"><i class="benchmark-bar wrapper" style="--bar-width:15.4%"></i></span><span>2.316 ns</span></div></div></div>
+                        <div class="benchmark-row"><code>runSync</code><div class="benchmark-bars"><div class="benchmark-measure"><span class="benchmark-track"><i class="benchmark-bar direct" style="--bar-width:14.2%"></i></span><span>2.126 ns</span></div><div class="benchmark-measure"><span class="benchmark-track"><i class="benchmark-bar wrapper" style="--bar-width:64.7%"></i></span><span>9.701 ns</span></div></div></div>
+                        <div class="benchmark-row"><code>runFile</code><div class="benchmark-bars"><div class="benchmark-measure"><span class="benchmark-track"><i class="benchmark-bar direct" style="--bar-width:14.0%"></i></span><span>2.107 ns</span></div><div class="benchmark-measure"><span class="benchmark-track"><i class="benchmark-bar wrapper" style="--bar-width:15.5%"></i></span><span>2.321 ns</span></div></div></div>
+                        <div class="benchmark-row"><code>runFilePromise</code><div class="benchmark-bars"><div class="benchmark-measure"><span class="benchmark-track"><i class="benchmark-bar direct" style="--bar-width:13.9%"></i></span><span>2.083 ns</span></div><div class="benchmark-measure"><span class="benchmark-track"><i class="benchmark-bar wrapper" style="--bar-width:15.3%"></i></span><span>2.295 ns</span></div></div></div>
+                        <div class="benchmark-row"><code>runFileSync</code><div class="benchmark-bars"><div class="benchmark-measure"><span class="benchmark-track"><i class="benchmark-bar direct" style="--bar-width:14.1%"></i></span><span>2.117 ns</span></div><div class="benchmark-measure"><span class="benchmark-track"><i class="benchmark-bar wrapper" style="--bar-width:83.2%"></i></span><span>12.483 ns</span></div></div></div>
+                        <div class="benchmark-row"><code>runStream</code><div class="benchmark-bars"><div class="benchmark-measure"><span class="benchmark-track"><i class="benchmark-bar direct" style="--bar-width:14.0%"></i></span><span>2.100 ns</span></div><div class="benchmark-measure"><span class="benchmark-track"><i class="benchmark-bar wrapper" style="--bar-width:15.5%"></i></span><span>2.318 ns</span></div></div></div>
+                    </figure>
+                    <div class="table-wrap"><table class="reference-table"><thead><tr><th>node-cmd API</th><th>Paired median delta</th><th>95% bootstrap CI</th><th>Interpretation</th></tr></thead><tbody><tr><td><code>run</code></td><td>+0.211 ns</td><td>+0.203 to +0.220</td><td>Dispatch measured</td></tr><tr><td><code>runPromise</code></td><td>+0.217 ns</td><td>+0.209 to +0.229</td><td>Dispatch measured</td></tr><tr><td><code>runSync</code></td><td>+7.562 ns</td><td>+7.486 to +7.614</td><td>Result normalization measured</td></tr><tr><td><code>runFile</code></td><td>+0.211 ns</td><td>+0.204 to +0.219</td><td>Overload dispatch measured</td></tr><tr><td><code>runFilePromise</code></td><td>+0.213 ns</td><td>+0.204 to +0.224</td><td>Overload dispatch measured</td></tr><tr><td><code>runFileSync</code></td><td>+10.402 ns</td><td>+10.241 to +10.484</td><td>Options + result normalization measured</td></tr><tr><td><code>runStream</code></td><td>+0.218 ns</td><td>+0.204 to +0.227</td><td>Overload dispatch measured</td></tr></tbody></table></div>
+                </section>
+
+                <section class="doc-section">
+                    <div class="section-kicker">03 / Real process completion</div>
+                    <h2>The wrapper tracks Node through the operating system</h2>
+                    <p>Each implementation started the same empty Node.js executable with identical options. The <code>run*</code> scenarios include the platform shell plus that child; <code>runFile*</code> and <code>runStream()</code> start the child directly. The direct and node-cmd calls ran sequentially, with first position alternating to reduce order bias. Bars show median completion time; lower is better.</p>
+                    <figure class="benchmark-chart" aria-labelledby="process-chart-title">
+                        <figcaption id="process-chart-title"><strong>Empty child completion</strong><span>0–60 ms</span></figcaption>
+                        <div class="benchmark-legend"><span><i class="legend-direct"></i>node:child_process</span><span><i class="legend-wrapper"></i>node-cmd</span></div>
+                        <div class="benchmark-row"><code>run · callback</code><div class="benchmark-bars"><div class="benchmark-measure"><span class="benchmark-track"><i class="benchmark-bar direct" style="--bar-width:88.4%"></i></span><span>53.040 ms</span></div><div class="benchmark-measure"><span class="benchmark-track"><i class="benchmark-bar wrapper" style="--bar-width:88.1%"></i></span><span>52.859 ms</span></div></div></div>
+                        <div class="benchmark-row"><code>runPromise</code><div class="benchmark-bars"><div class="benchmark-measure"><span class="benchmark-track"><i class="benchmark-bar direct" style="--bar-width:89.5%"></i></span><span>53.712 ms</span></div><div class="benchmark-measure"><span class="benchmark-track"><i class="benchmark-bar wrapper" style="--bar-width:89.6%"></i></span><span>53.787 ms</span></div></div></div>
+                        <div class="benchmark-row"><code>runSync</code><div class="benchmark-bars"><div class="benchmark-measure"><span class="benchmark-track"><i class="benchmark-bar direct" style="--bar-width:90.8%"></i></span><span>54.495 ms</span></div><div class="benchmark-measure"><span class="benchmark-track"><i class="benchmark-bar wrapper" style="--bar-width:91.0%"></i></span><span>54.617 ms</span></div></div></div>
+                        <div class="benchmark-row"><code>runFile · callback</code><div class="benchmark-bars"><div class="benchmark-measure"><span class="benchmark-track"><i class="benchmark-bar direct" style="--bar-width:70.8%"></i></span><span>42.452 ms</span></div><div class="benchmark-measure"><span class="benchmark-track"><i class="benchmark-bar wrapper" style="--bar-width:69.9%"></i></span><span>41.932 ms</span></div></div></div>
+                        <div class="benchmark-row"><code>runFilePromise</code><div class="benchmark-bars"><div class="benchmark-measure"><span class="benchmark-track"><i class="benchmark-bar direct" style="--bar-width:67.3%"></i></span><span>40.393 ms</span></div><div class="benchmark-measure"><span class="benchmark-track"><i class="benchmark-bar wrapper" style="--bar-width:66.9%"></i></span><span>40.140 ms</span></div></div></div>
+                        <div class="benchmark-row"><code>runFileSync</code><div class="benchmark-bars"><div class="benchmark-measure"><span class="benchmark-track"><i class="benchmark-bar direct" style="--bar-width:65.8%"></i></span><span>39.508 ms</span></div><div class="benchmark-measure"><span class="benchmark-track"><i class="benchmark-bar wrapper" style="--bar-width:65.8%"></i></span><span>39.485 ms</span></div></div></div>
+                        <div class="benchmark-row"><code>runStream</code><div class="benchmark-bars"><div class="benchmark-measure"><span class="benchmark-track"><i class="benchmark-bar direct" style="--bar-width:65.2%"></i></span><span>39.121 ms</span></div><div class="benchmark-measure"><span class="benchmark-track"><i class="benchmark-bar wrapper" style="--bar-width:64.8%"></i></span><span>38.886 ms</span></div></div></div>
+                    </figure>
+                    <div class="table-wrap"><table class="reference-table"><thead><tr><th>node-cmd API</th><th>Node direct p50</th><th>node-cmd p50</th><th>Paired-delta 95% CI</th></tr></thead><tbody><tr><td><code>run</code></td><td>53.040 ms</td><td>52.859 ms</td><td>−0.716 to +0.235 ms</td></tr><tr><td><code>runPromise</code></td><td>53.712 ms</td><td>53.787 ms</td><td>−0.985 to +0.600 ms</td></tr><tr><td><code>runSync</code></td><td>54.495 ms</td><td>54.617 ms</td><td>−0.853 to +1.536 ms</td></tr><tr><td><code>runFile</code></td><td>42.452 ms</td><td>41.932 ms</td><td>−1.145 to +0.146 ms</td></tr><tr><td><code>runFilePromise</code></td><td>40.393 ms</td><td>40.140 ms</td><td>−1.135 to +0.460 ms</td></tr><tr><td><code>runFileSync</code></td><td>39.508 ms</td><td>39.485 ms</td><td>−0.793 to +0.189 ms</td></tr><tr><td><code>runStream</code></td><td>39.121 ms</td><td>38.886 ms</td><td>−0.874 to +0.218 ms</td></tr></tbody></table></div>
+                    <p>All seven paired-delta confidence intervals include zero, so this run did not resolve a completion-time difference. That is a statement about detection at this sample size—not proof that the implementations are mathematically equivalent.</p>
+                </section>
+
+                <section class="doc-section">
+                    <div class="section-kicker">04 / Method</div>
+                    <h2>Reference environment and controls</h2>
+                    <div class="table-wrap"><table class="reference-table compact"><thead><tr><th>Input</th><th>Reference value</th><th>Why it matters</th></tr></thead><tbody><tr><td>Runtime</td><td>Node.js 22.12.0 · V8 12.4</td><td>The exact supported runtime floor</td></tr><tr><td>Source identity</td><td>SHA-256 for runtime and both benchmark scripts</td><td>Full hashes are included in the raw report</td></tr><tr><td>Host</td><td>Windows x64 · Intel Core Ultra 9 275HX · 24 logical CPUs</td><td>Absolute launch time is machine-specific</td></tr><tr><td>Process suite</td><td>20 warm-ups + 100 balanced pairs per API</td><td>Sequential calls and alternating order reduce interference</td></tr><tr><td>Dispatch suite</td><td>100 calibrated batches per API</td><td>At least 100,000 calls per batch; raw batches retained</td></tr><tr><td>Intervals</td><td>2,000 deterministic bootstrap resamples</td><td>Reports uncertainty around the paired median</td></tr><tr><td>Source parity</td><td>CommonJS and ESM identity asserted before timing</td><td>Both module systems use the same implementation</td></tr></tbody></table></div>
+                    <div class="callout warning"><strong>Read the machine, not a universal constant.</strong> Absolute process-launch time varies with hardware, operating system, load, security software, and the executable. Compare trends and wrapper scale; reproduce on the environment that matters to you.</div>
+                </section>
+
+                <section class="doc-section">
+                    <div class="section-kicker">05 / Reproduce</div>
+                    <h2>Run the dependency-free harness yourself</h2>
+                    <pre><code>node ./benchmark/run.js --samples 100 --warmups 20 --output ./benchmark/reference.json
+npm run benchmark:chart</code></pre>
+                    <p>The harness uses Node built-ins only. It preserves every process pair and dispatch batch in <a href="./benchmark-results.json"><code>benchmark-results.json</code></a>; the README charts are regenerated directly from that file.</p>
+                </section>
+            </article>
+
+            <nav class="next-docs" aria-label="Continue reading"><a href="./testing.html"><span>Evidence</span><strong>Tests &amp; coverage →</strong></a><a href="./security.html"><span>Next</span><strong>Security model →</strong></a></nav>
+        </main>
+        <footer class="site-footer"><div class="footer-inner"><a class="wordmark" href="./index.html"><span class="wordmark-mark" aria-hidden="true">&gt;_</span><span class="wordmark-name">node-cmd</span></a><p>Performance claims with source, method, and raw samples. <span data-year></span></p><div class="footer-links"><a href="./benchmark-results.json">Raw data</a><a href="https://github.com/RIAEvangelist/node-cmd/tree/main/benchmark">Harness</a><a href="https://github.com/RIAEvangelist/node-cmd">GitHub</a></div></div></footer>
+    </body>
+</html>
